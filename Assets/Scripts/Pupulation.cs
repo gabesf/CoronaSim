@@ -18,12 +18,15 @@ public class Pupulation : MonoBehaviour
             float xPos = Random.Range(-Constants.WorldSize.x, Constants.WorldSize.x);
             float yPos = Random.Range(-Constants.WorldSize.y, Constants.WorldSize.y);
 
+
+
             person.transform.position = new Vector2(xPos, yPos);
             person.transform.parent = transform;
             if (i == 0)
             {
                 person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
                 person.tag = "Patient0";
+                person.transform.position = new Vector3(300, -60, 0);
             }
         }
     }
