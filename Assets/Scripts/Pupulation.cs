@@ -9,12 +9,12 @@ public class Pupulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        print(Constants.InitialPopulation);
+        
         for(int i = 0; i < Constants.InitialPopulation; i++)
         {
-            print("Created a person");
+           
             GameObject person = Instantiate(personPrefab);
-            person.name = $"person{i}";
+            person.name = "person";
             float xPos = Random.Range(-Constants.WorldSize.x, Constants.WorldSize.x);
             float yPos = Random.Range(-Constants.WorldSize.y, Constants.WorldSize.y);
 
