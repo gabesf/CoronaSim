@@ -15,6 +15,8 @@ public static class Constants
     //static public float infectionRate = 0.1f;
     static public float infectionTimeLimit = 300;
 
-    public static float BeAwareChance = 0.5f;
+    static public float goToHospitalWhenSickChance = 0.1f;
+
+    public static float BeAwareChance = 0.0f;
     }
 

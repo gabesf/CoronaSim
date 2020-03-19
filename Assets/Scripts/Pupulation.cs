@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pupulation : MonoBehaviour
 {
     public GameObject personPrefab;
-
+    public GameObject healthBarPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,9 @@ public class Pupulation : MonoBehaviour
                 person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
                 person.tag = "Patient0";
                 person.transform.position = new Vector3(300, -60, 0);
+                GameObject healthBar = Instantiate(healthBarPrefab);
+                healthBar.transform.parent = person.transform;
+                healthBar.transform.localPosition = new Vector3(0f, 2f, 0f);
             }
         }
     }

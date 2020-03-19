@@ -12,6 +12,11 @@ public enum HealthStatus
 
 public class PersonBehaviour : MonoBehaviour
 {
+
+    //create a health quantity (relatively random) that is depleted by the virus
+    //if the quantity is bellow some arbitrary level (go to hospital, go to intensive care) the person needs 
+    //to go to the specified area or it's health depletes faster. If it goes to zero, the person goes to the morge.
+
     public Material sick;
     public Material healthy;
     public Material infected;
@@ -19,6 +24,7 @@ public class PersonBehaviour : MonoBehaviour
 
     public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
     public bool Aware { get; set; } = true;
+    public bool ShouldGoToHospital { get; set; } = false;
 
     private new Renderer renderer;
     private Rigidbody2D rb;
@@ -26,7 +32,7 @@ public class PersonBehaviour : MonoBehaviour
     public int TimeInfected { get; set; } = 0;
     public int TimeSick { get; set; } = 0;
 
-    public float Health { get; set; } = 1000;
+    public float Health { get; set; } 
 
 
     private void Walk()
@@ -70,15 +76,11 @@ public class PersonBehaviour : MonoBehaviour
 
                 break;
         }
-    }
-
-   
-
-
-    
+    }  
 
     private void Start()
     {
+        Health = Random.Range(500, 1000); 
         UpdateMaterial();
 
         GenerateRandomAwareness();
@@ -91,6 +93,12 @@ public class PersonBehaviour : MonoBehaviour
     {
         float chance = Random.Range(0f, 1f);
         Aware = chance < Constants.BeAwareChance ? true : false;
+    }
+
+    private void GenerateRandomNecessityToGoToHospital()
+    {
+        float chance = Random.Range(0f, 1f);
+        ShouldGoToHospital = chance < Constants.goToHospitalWhenSickChance ? true : false;
     }
 
     // Start is called before the first frame update
@@ -116,6 +124,8 @@ public class PersonBehaviour : MonoBehaviour
 
     }
 
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -130,23 +140,34 @@ public class PersonBehaviour : MonoBehaviour
                 if(TimeInfected > Constants.infectionTimeLimit)
                 {
                     Condition = HealthStatus.Sick;
+                    GenerateRandomNecessityToGoToHospital();
                     UpdateMaterial();
                 }
                 break;
 
             case HealthStatus.Sick:
                 TimeSick++; 
-                if(IsInsideHospital())
-                {
 
-                    BeAttended();
+                if(ShouldGoToHospital)
+                {
+                    if (IsInsideHospital())
+                    {
+
+                        BeAttended();
+                    }
+                    else
+                    {
+                        GoToHospital();
+
+
+
+                    }
                 } else
                 {
-                    GoToHospital();
-                    
-
-                    
+                    Aware = true;
                 }
+
+                
                 break;
 
 
@@ -154,8 +175,8 @@ public class PersonBehaviour : MonoBehaviour
 
                 break;
         }
-        
-        
+
+        if (Aware) rb.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
