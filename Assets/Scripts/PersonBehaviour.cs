@@ -29,6 +29,8 @@ public class PersonBehaviour : MonoBehaviour
     public bool Aware { get; set; } = true;
     public bool ShouldGoToHospital { get; set; } = false;
 
+    public bool HospitalAccess { get; set; } = false;
+
     private new Renderer renderer;
     private Rigidbody2D rb;
 
@@ -44,17 +46,17 @@ public class PersonBehaviour : MonoBehaviour
         {
             Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             randomDirection = randomDirection.normalized;
-            rb.velocity = randomDirection * Constants.MaxSpeed;
+            rb.velocity = randomDirection * Constants.WalkingSpeed;
         } else
         {
             rb.velocity = Vector3.zero;
         }
     }
-           
+         
 
     private void WalkTo(Vector3 address)
     {
-        rb.velocity = (address - transform.position).normalized * Constants.MaxSpeed;
+        rb.velocity = (address - transform.position).normalized * Constants.WalkingSpeed;
     }
 
     private void UpdateMaterial()
@@ -125,21 +127,17 @@ public class PersonBehaviour : MonoBehaviour
     }
 
     
-
-    
-
-    // Update is called once per frame
     void Update()
     {
         if(healthBarScript)
         {
-            healthBarScript.SetSize(1);
+            healthBarScript.UpdateBar(0.3f);
         } 
 
         switch(Condition)
         {
             case HealthStatus.Healthy:
-
+                rb.velocity = rb.velocity.normalized * Constants.WalkingSpeed;
                 break;
 
             case HealthStatus.Infected:
@@ -197,6 +195,12 @@ public class PersonBehaviour : MonoBehaviour
             PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
             HealthStatus otherPersonCondition = otherPersonBehaviour.Condition;
             HandlePersonsTouched(otherPersonCondition);
+        }
+
+        if (collision.gameObject.name == "Hospital" && Condition == HealthStatus.Sick)
+        {
+            collision.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);
+            
         }
     }
 
