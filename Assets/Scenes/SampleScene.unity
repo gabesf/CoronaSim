@@ -140,7 +140,7 @@ PrefabInstance:
     - target: {fileID: 7901963746072170673, guid: 66b98f03c5671da499fc4651b2c7e706,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 82
+      value: -241
       objectReference: {fileID: 0}
     - target: {fileID: 7901963746072170673, guid: 66b98f03c5671da499fc4651b2c7e706,
         type: 3}
@@ -204,6 +204,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66b98f03c5671da499fc4651b2c7e706, type: 3}
+--- !u!1 &229004742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7901963746072170676, guid: 66b98f03c5671da499fc4651b2c7e706,
+    type: 3}
+  m_PrefabInstance: {fileID: 134937880}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &229004747
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229004742}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &831077601
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -423,6 +445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personPrefab: {fileID: 2802193812323980914, guid: 11435c8de7c123a4aad0c46789b06a1d,
+    type: 3}
+  healthBarPrefab: {fileID: 6361404197246350534, guid: fc40b1c3a85e7274fa232eb761f5666f,
     type: 3}
 --- !u!1 &1198873723
 GameObject:

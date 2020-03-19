@@ -22,6 +22,9 @@ public class PersonBehaviour : MonoBehaviour
     public Material infected;
     public Material dead;
 
+    //private GameObject healthBar;
+    private HealthBar healthBarScript;
+
     public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
     public bool Aware { get; set; } = true;
     public bool ShouldGoToHospital { get; set; } = false;
@@ -80,6 +83,8 @@ public class PersonBehaviour : MonoBehaviour
 
     private void Start()
     {
+        GameObject healthBar = GameObject.Find("HealthBar");
+        if (healthBar) healthBarScript = healthBar.GetComponent<HealthBar>();
         Health = Random.Range(500, 1000); 
         UpdateMaterial();
 
@@ -119,16 +124,18 @@ public class PersonBehaviour : MonoBehaviour
         WalkTo(Constants.HospitalPosition);
     }
 
-    private void BeAttended()
-    {
-
-    }
+    
 
     
 
     // Update is called once per frame
     void Update()
     {
+        if(healthBarScript)
+        {
+            healthBarScript.SetSize(1);
+        } 
+
         switch(Condition)
         {
             case HealthStatus.Healthy:
@@ -153,7 +160,7 @@ public class PersonBehaviour : MonoBehaviour
                     if (IsInsideHospital())
                     {
 
-                        BeAttended();
+                        
                     }
                     else
                     {

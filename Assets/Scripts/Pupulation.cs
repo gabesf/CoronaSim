@@ -29,6 +29,7 @@ public class Pupulation : MonoBehaviour
                 person.transform.position = new Vector3(300, -60, 0);
                 GameObject healthBar = Instantiate(healthBarPrefab);
                 healthBar.transform.parent = person.transform;
+                healthBar.name = "HealthBar";
                 healthBar.transform.localPosition = new Vector3(0f, 2f, 0f);
             }
         }
