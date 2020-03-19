@@ -20,7 +20,11 @@ public class Pupulation : MonoBehaviour
 
             person.transform.position = new Vector2(xPos, yPos);
             person.transform.parent = transform;
-
+            if (i == 0)
+            {
+                person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
+                person.tag = "Patient0";
+            }
         }
     }
 

@@ -32,47 +32,12 @@ public class PersonBehaviour : MonoBehaviour
         rb.velocity = randomDirection * Constants.MaxSpeed;
     }
 
-    private void HandlePersonsTouched(HealthStatus otherPersonCondition)
+    private void UpdateMaterial()
     {
-       if( Condition == HealthStatus.Healthy)
-        {
-            if(otherPersonCondition == HealthStatus.Infected || otherPersonCondition == HealthStatus.Sick)
-            {
-                Condition = HealthStatus.Infected;
-            }
-        }
-    }
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //if(collision.gam)
-        Walk();
-
-        if(collision.gameObject.name == "Person")
-        {
-            PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
-            HealthStatus otherPersonCondition = otherPersonBehaviour.Condition;
-            HandlePersonsTouched(otherPersonCondition);
-        }
-
-    }
-    // Start is called before the first frame update
-    void Awake()
-    {
-        //print("Created");
-        renderer = gameObject.GetComponent<Renderer>();
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        switch(Condition)
+        switch (Condition)
         {
             case HealthStatus.Healthy:
                 renderer.material = healthy;
-
-                //Walk();
-                Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-                randomDirection = randomDirection.normalized;
-                rb.velocity = randomDirection * Constants.MaxSpeed;
-
                 break;
 
             case HealthStatus.Infected:
@@ -89,6 +54,52 @@ public class PersonBehaviour : MonoBehaviour
 
                 break;
         }
+    }
+
+    private void HandlePersonsTouched(HealthStatus otherPersonCondition)
+    {
+        
+
+
+       if( Condition == HealthStatus.Healthy)
+        {
+            if(otherPersonCondition == HealthStatus.Infected || otherPersonCondition == HealthStatus.Sick)
+            {
+                Condition = HealthStatus.Infected;
+                UpdateMaterial();
+            }
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //if(collision.gam)
+        Walk();
+        
+
+        if(collision.gameObject.name == "person")
+        {
+            PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
+            HealthStatus otherPersonCondition = otherPersonBehaviour.Condition;
+            HandlePersonsTouched(otherPersonCondition);
+        }
+
+    }
+
+    private void Start()
+    {
+        UpdateMaterial();
+        Walk();
+        
+    }
+    // Start is called before the first frame update
+    void Awake()
+    {
+        //print("Created");
+        renderer = gameObject.GetComponent<Renderer>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        
     }
 
     
