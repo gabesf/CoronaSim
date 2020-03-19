@@ -7,11 +7,15 @@ public class HospitalManagement : MonoBehaviour
     public int Capacity { get; set; } = 100;
     public int Occupation { get; set; } = 0;
 
-    
+    public GameObject HealthBar;
+    private HealthBar healthBarScript;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        healthBarScript = HealthBar.GetComponent<HealthBar>();
+        healthBarScript.UpdateBar(0f);
     }
 
     public void AskAdmission(GameObject person)
@@ -21,15 +25,14 @@ public class HospitalManagement : MonoBehaviour
             Occupation++;
             person.GetComponent<PersonBehaviour>().HospitalAccess = true;
             person.layer = 9;
+            float OccupancyRatio = (float)Occupation / (float)Capacity;
+            print($"Occupancy: {OccupancyRatio}");
+            healthBarScript.UpdateBar(OccupancyRatio);
             
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
 
 }

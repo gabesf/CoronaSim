@@ -27,6 +27,8 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateBar(float sizeNormalized)
     {
+        print( transform.root.name);
+        print("Updating " + sizeNormalized);
         SetSize(sizeNormalized);
         UpdateColor(sizeNormalized);
     }

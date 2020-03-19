@@ -7,6 +7,9 @@ public class Pupulation : MonoBehaviour
     public GameObject personPrefab;
     public GameObject healthBarPrefab;
     // Start is called before the first frame update
+
+    
+
     void Start()
     {
         
@@ -22,11 +25,13 @@ public class Pupulation : MonoBehaviour
 
             person.transform.position = new Vector2(xPos, yPos);
             person.transform.parent = transform;
+            person.layer = 8;
             if (i == 0)
             {
                 person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
                 person.tag = "Patient0";
                 person.transform.position = new Vector3(300, -60, 0);
+                
                 GameObject healthBar = Instantiate(healthBarPrefab);
                 healthBar.transform.parent = person.transform;
                 healthBar.name = "HealthBar";
