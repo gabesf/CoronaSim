@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ResetButton : MonoBehaviour
 {
+    private Pupulation populationScript;
     public void ReloadScene()
     {
         print("Button pressed");
@@ -14,8 +15,9 @@ public class ResetButton : MonoBehaviour
     public void Repopulate()
     {
         GameObject population = GameObject.Find("Population");
-        print(population.name);
-        
+        populationScript = population.GetComponent<Pupulation>();
+        populationScript.RemoveAllPeople();
+        populationScript.Populate();
             //print("will repopulate");
     }
 }

@@ -268,6 +268,11 @@ PrefabInstance:
       propertyPath: virusMortality
       value: 
       objectReference: {fileID: 540645598}
+    - target: {fileID: 1662766535980214647, guid: 6ddfe6e48aef714439d316ffc5e5efcb,
+        type: 3}
+      propertyPath: populationSize
+      value: 
+      objectReference: {fileID: 688975892}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ddfe6e48aef714439d316ffc5e5efcb, type: 3}
 --- !u!1 &519420028
@@ -356,6 +361,18 @@ Transform:
 --- !u!114 &540645598 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1077653537445823268, guid: 04db2e553c3f39444a42ab5217cbb742,
+    type: 3}
+  m_PrefabInstance: {fileID: 758502700}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &688975892 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 895798820310007466, guid: 04db2e553c3f39444a42ab5217cbb742,
     type: 3}
   m_PrefabInstance: {fileID: 758502700}
   m_PrefabAsset: {fileID: 0}
@@ -596,6 +613,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951741755032695300, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110497880614173413, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013483660060294832, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230758916323295988, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 920607123316999246, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 920607123316999246, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709796838623985140, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709796838623985140, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709796838623985140, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04db2e553c3f39444a42ab5217cbb742, type: 3}

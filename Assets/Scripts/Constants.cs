@@ -15,6 +15,8 @@ public static class Constants
     static public float MaxInfectingWithoutSignsTime = 1000;
     static public float MaxVirusMortalityRate = 100;
 
+    static public int PopulationLimit = 1000;
+
     static public float WalkingSpeed { get; set; } = 30;
 
     static public Vector3 HospitalPosition { get; set; } = new Vector3(-140, 82, 0);
