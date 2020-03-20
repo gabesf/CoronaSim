@@ -14,6 +14,8 @@ public enum HealthStatus
 public class PersonHealth : MonoBehaviour
 {
     public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
+    private PersonAppearance personAppearance;
+
     public GameObject virusPrefab;
     public bool Aware { get; set; } = true;
     public int TimeInfected { get; set; } = 0;
@@ -24,6 +26,11 @@ public class PersonHealth : MonoBehaviour
     private VirusHealth virusHealth;
     private GameObject virus;
 
+    private void Awake()
+    {
+        personAppearance = gameObject.GetComponent<PersonAppearance>();
+
+    }
 
     public void ContractVirus()
     {
@@ -33,6 +40,8 @@ public class PersonHealth : MonoBehaviour
         virusHealth = virus.GetComponent<VirusHealth>();
         virus.transform.parent = transform;
         Condition = HealthStatus.Infected;
+        personAppearance.UpdateMaterial();
+        
     }
 
     public void RemoveVirus()
@@ -41,6 +50,7 @@ public class PersonHealth : MonoBehaviour
         virusPresent = false;
         virusHealth = null;
         Condition = HealthStatus.Cured;
+        personAppearance.UpdateMaterial();
         
     }
 
@@ -61,8 +71,9 @@ public class PersonHealth : MonoBehaviour
 
     private void Die()
     {
-
+        Condition = HealthStatus.Dead;
     }
+
 
     // Update is called once per frame
     void Update()

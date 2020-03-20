@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3282735805793575287}
   - component: {fileID: -4147998050985946665}
   - component: {fileID: -3493654616325458577}
+  - component: {fileID: -7344957597995074220}
   m_Layer: 0
   m_Name: Person
   m_TagString: Untagged
@@ -108,10 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31020265b2b24d4b80bb77a9fd39ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sick: {fileID: 2100000, guid: 8f9079236cbeee6438c8783a940687ba, type: 2}
-  healthy: {fileID: 2100000, guid: 5f3dfe51b687cc84589f9e34c3b8c3ab, type: 2}
-  infected: {fileID: 2100000, guid: 645f1dc5dc4e2c348a841954a6932397, type: 2}
-  dead: {fileID: 2100000, guid: cb4174cf2b140c0479f96a6d3c703ca3, type: 2}
 --- !u!50 &-4147998050985946665
 Rigidbody2D:
   serializedVersion: 4
@@ -149,3 +146,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-7344957597995074220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802193812323980914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323ee3ccc37121e4abdc8852ce6acceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sick: {fileID: 2100000, guid: 8f9079236cbeee6438c8783a940687ba, type: 2}
+  healthy: {fileID: 2100000, guid: 5f3dfe51b687cc84589f9e34c3b8c3ab, type: 2}
+  infected: {fileID: 2100000, guid: 645f1dc5dc4e2c348a841954a6932397, type: 2}
+  dead: {fileID: 2100000, guid: cb4174cf2b140c0479f96a6d3c703ca3, type: 2}
+  cured: {fileID: 2100000, guid: 8ce34b788d5f25c45a8cf55be91b0049, type: 2}

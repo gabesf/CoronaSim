@@ -17,46 +17,39 @@ public class Virus
 
 public class PersonBehaviour : MonoBehaviour
 {
-    private PersonHealth health;
+    private PersonHealth personHealth;
+    private PersonAppearance personAppearance;
     //create a health quantity (relatively random) that is depleted by the virus
     //if the quantity is bellow some arbitrary level (go to hospital, go to intensive care) the person needs 
     //to go to the specified area or it's health depletes faster. If it goes to zero, the person goes to the morge.
 
-    public Material sick;
-    public Material healthy;
-    public Material infected;
-    public Material dead;
+   
 
     //private GameObject healthBar;
-    private HealthBar healthBarScript;
+    
 
     
     public bool ShouldGoToHospital { get; set; } = false;
 
     public bool HospitalAccess { get; set; } = false;
 
-    private new Renderer renderer;
+    
     private Rigidbody2D rb;
 
     
 
-    private Virus virus;
+    
 
     
 
     private void Start()
     {
         
-        virus = new Virus();
-        GameObject healthBar = GameObject.Find("HealthBar");
-        if (healthBar)
-        {
-            healthBarScript = healthBar.GetComponent<HealthBar>();
-            healthBarScript.UpdateBar(health.Health);
-        }
-        health.Health = Random.Range(500, 1000);
         
-        UpdateMaterial();
+        
+        personHealth.Health = Random.Range(500, 1000);
+        
+        
 
         GenerateRandomAwareness();
         Walk();
@@ -67,7 +60,7 @@ public class PersonBehaviour : MonoBehaviour
     private void GenerateRandomAwareness()
     {
         float chance = Random.Range(0f, 1f);
-        health.Aware = chance < Constants.BeAwareChance ? true : false;
+        personHealth.Aware = chance < Constants.BeAwareChance ? true : false;
     }
 
     private void GenerateRandomNecessityToGoToHospital()
@@ -79,8 +72,9 @@ public class PersonBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        health = gameObject.GetComponent<PersonHealth>();
-        renderer = gameObject.GetComponent<Renderer>();
+        personHealth = gameObject.GetComponent<PersonHealth>();
+        personAppearance = gameObject.GetComponent<PersonAppearance>();
+
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -97,28 +91,28 @@ public class PersonBehaviour : MonoBehaviour
     
     void Update()
     {
-        switch(health.Condition)
+        switch(personHealth.Condition)
         {
             case HealthStatus.Healthy:
                 rb.velocity = rb.velocity.normalized * Constants.WalkingSpeed;
                 break;
 
             case HealthStatus.Infected:
-                health.Health -= virus.Damage;
+                
 
-                health.TimeInfected++;
-                if(health.TimeInfected > Constants.InfectingWithoutSignsTime)
+                personHealth.TimeInfected++;
+                if(personHealth.TimeInfected > Constants.InfectingWithoutSignsTime)
                 {
-                    health.Condition = HealthStatus.Sick;
+                    personHealth.Condition = HealthStatus.Sick;
                     GenerateRandomNecessityToGoToHospital();
-                    UpdateMaterial();
+                    personAppearance.UpdateMaterial();
                 }
                 break;
 
             case HealthStatus.Sick:
-                health.Health -= virus.Damage;
+                //health.Health -= virus.Damage;
 
-                health.TimeSick++; 
+                personHealth.TimeSick++; 
 
                 if(ShouldGoToHospital)
                 {
@@ -142,7 +136,7 @@ public class PersonBehaviour : MonoBehaviour
                     }
                 } else
                 {
-                    health.Aware = true;
+                    personHealth.Aware = true;
                 }
 
                 
@@ -154,7 +148,7 @@ public class PersonBehaviour : MonoBehaviour
                 break;
         }
 
-        if (health.Aware) rb.velocity = Vector2.zero;
+        if (personHealth.Aware) rb.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -166,11 +160,11 @@ public class PersonBehaviour : MonoBehaviour
         if (collision.gameObject.name == "person")
         {
             PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
-            HealthStatus otherPersonCondition = otherPersonBehaviour.health.Condition;
+            HealthStatus otherPersonCondition = otherPersonBehaviour.personHealth.Condition;
             HandlePersonsTouched(otherPersonCondition);
         }
 
-        if (collision.gameObject.name == "HospitalBody" && health.Condition == HealthStatus.Sick && gameObject.layer == 12 )
+        if (collision.gameObject.name == "HospitalBody" && personHealth.Condition == HealthStatus.Sick && gameObject.layer == 12 )
         {
             print("Asking Admission");
             collision.transform.root.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);            
@@ -179,20 +173,20 @@ public class PersonBehaviour : MonoBehaviour
 
     private void HandlePersonsTouched(HealthStatus otherPersonCondition)
     {
-        if (health.Condition == HealthStatus.Healthy)
+        if (personHealth.Condition == HealthStatus.Healthy)
         {
             if (otherPersonCondition == HealthStatus.Infected)
             {
-                health.ContractVirus();
+                personHealth.ContractVirus();
                 
-                UpdateMaterial();
+                
             }
         }
     }
 
     private void Walk()
     {
-        if (!health.Aware)
+        if (!personHealth.Aware)
         {
             Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             randomDirection = randomDirection.normalized;
@@ -210,27 +204,5 @@ public class PersonBehaviour : MonoBehaviour
         rb.velocity = (address - transform.position).normalized * Constants.WalkingSpeed;
     }
 
-    private void UpdateMaterial()
-    {
-        switch (health.Condition)
-        {
-            case HealthStatus.Healthy:
-                renderer.material = healthy;
-                break;
-
-            case HealthStatus.Infected:
-                renderer.material = infected;
-                break;
-
-            case HealthStatus.Sick:
-                renderer.material = sick;
-                break;
-
-
-            case HealthStatus.Dead:
-                renderer.material = dead;
-
-                break;
-        }
-    }
+    
 }
