@@ -14,7 +14,6 @@ public class HospitalManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Started");
         GameObject healthBar = Instantiate(HealthBarPrefab);
         transform.position = Constants.HospitalPosition;
         healthBar.transform.parent = transform;

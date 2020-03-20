@@ -29,7 +29,7 @@ public class PersonHealth : MonoBehaviour
     private void Awake()
     {
         personAppearance = gameObject.GetComponent<PersonAppearance>();
-
+        Health = Random.Range(0.8f, 1);
     }
 
     public void ContractVirus()
@@ -39,6 +39,7 @@ public class PersonHealth : MonoBehaviour
         virusPresent = true;
         virusHealth = virus.GetComponent<VirusHealth>();
         virus.transform.parent = transform;
+        virus.transform.localPosition = Vector3.zero;
         Condition = HealthStatus.Infected;
         personAppearance.UpdateMaterial();
         
@@ -62,9 +63,10 @@ public class PersonHealth : MonoBehaviour
     public void ReceiveAttack(float damage)
     {
         Health -= damage;
-        
-        if (Health < 0)
+        personAppearance.UpdateBar();
+        if (Health <= 0)
         {
+            Health = 0;
             Die();
         }
     }
@@ -72,13 +74,14 @@ public class PersonHealth : MonoBehaviour
     private void Die()
     {
         Condition = HealthStatus.Dead;
+        personAppearance.UpdateMaterial();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if(virusPresent)
+        if(virusPresent && Condition!=HealthStatus.Dead)
         {
             AttackVirus();
         }

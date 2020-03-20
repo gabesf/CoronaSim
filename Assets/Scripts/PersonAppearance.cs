@@ -18,12 +18,14 @@ public class PersonAppearance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject healthBar = GameObject.Find("HealthBar");
-        if (healthBar)
+        if (gameObject.transform.Find("HealthBar"))
         {
+            GameObject healthBar = transform.Find("HealthBar").gameObject;
+            Debug.Log(healthBar.transform.parent.name);
+            Debug.Log("Have a health bar");
             healthBarScript = healthBar.GetComponent<HealthBar>();
             healthBarScript.UpdateBar(personHealth.Health);
-        }
+        } 
         UpdateMaterial();
     }
 
@@ -58,6 +60,12 @@ public class PersonAppearance : MonoBehaviour
 
                 break;
         }
+    }
+
+    public void UpdateBar()
+    {
+        print(personHealth.Health);
+        healthBarScript.UpdateBar(personHealth.Health);
     }
 
     // Update is called once per frame

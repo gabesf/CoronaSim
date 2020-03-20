@@ -4,14 +4,7 @@ using UnityEngine;
 
 
 
-public class Virus
-{
-    public float Health { get; set; } = 1000;
 
-    public float Damage { get; set; } = Constants.VirusMortalityRate;
-
-
-}
 
 
 
@@ -44,17 +37,8 @@ public class PersonBehaviour : MonoBehaviour
 
     private void Start()
     {
-        
-        
-        
-        personHealth.Health = Random.Range(500, 1000);
-        
-        
-
         GenerateRandomAwareness();
         Walk();
-
-
     }
 
     private void GenerateRandomAwareness()
@@ -144,7 +128,7 @@ public class PersonBehaviour : MonoBehaviour
 
 
             case HealthStatus.Dead:
-
+                rb.velocity = Vector3.zero;
                 break;
         }
 

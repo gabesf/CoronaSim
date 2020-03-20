@@ -9,7 +9,7 @@ public class VirusHealth : MonoBehaviour
     public void ReceiveAttack(float damage)
     {
         Health -= damage;
-        Debug.Log(Health);
+        //Debug.Log(Health);
         if(Health < 0)
         {
             transform.parent.GetComponent<PersonHealth>().RemoveVirus();

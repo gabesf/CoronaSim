@@ -22,7 +22,7 @@ public class HealthBar : MonoBehaviour
 
     private void SetSize(float sizeNormalized)
     {
-        print($"Inside {transform.root}");
+        //print($"Inside {transform.root}");
         bar.localScale = new Vector3(sizeNormalized, 1);
     }
 

@@ -19,7 +19,7 @@ public class Pupulation : MonoBehaviour
         {
            
             GameObject person = Instantiate(personPrefab);
-            person.name = "person";
+            person.name = "person"+i;
             float xPos = Random.Range(-Constants.WorldSize.x, Constants.WorldSize.x);
             float yPos = Random.Range(-Constants.WorldSize.y, Constants.WorldSize.y);
 
