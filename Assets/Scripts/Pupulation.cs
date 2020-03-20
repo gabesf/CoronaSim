@@ -29,13 +29,13 @@ public class Pupulation : MonoBehaviour
             if (i == 0)
             {
                 person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
-                person.tag = "Patient0";
+                //person.tag = "Patient0";
                 person.transform.position = new Vector3(300, -60, 0);
                 
-                GameObject healthBar = Instantiate(healthBarPrefab);
-                healthBar.transform.parent = person.transform;
-                healthBar.name = "HealthBar";
-                healthBar.transform.localPosition = new Vector3(0f, 2f, 0f);
+                //GameObject healthBar = Instantiate(healthBarPrefab);
+                //healthBar.transform.parent = person.transform;
+                //healthBar.name = "HealthBar";
+                //healthBar.transform.localPosition = new Vector3(0f, 2f, 0f);
             }
         }
     }

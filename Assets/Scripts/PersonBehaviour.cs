@@ -59,9 +59,13 @@ public class PersonBehaviour : MonoBehaviour
         virus = new Virus();
 
         GameObject healthBar = GameObject.Find("HealthBar");
-        if (healthBar) healthBarScript = healthBar.GetComponent<HealthBar>();
+        if (healthBar)
+        {
+            healthBarScript = healthBar.GetComponent<HealthBar>();
+            healthBarScript.UpdateBar(Health);
+        }
         Health = Random.Range(500, 1000);
-        healthBarScript.UpdateBar(Health);
+        
         UpdateMaterial();
 
         GenerateRandomAwareness();
@@ -173,10 +177,9 @@ public class PersonBehaviour : MonoBehaviour
             HandlePersonsTouched(otherPersonCondition);
         }
 
-        if (collision.gameObject.name == "Hospital" && Condition == HealthStatus.Sick)
+        if (collision.gameObject.name == "HospitalBody" && Condition == HealthStatus.Sick)
         {
-            collision.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);
-            
+            collision.transform.root.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);            
         }
     }
 

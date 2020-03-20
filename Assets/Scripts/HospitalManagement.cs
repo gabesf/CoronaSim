@@ -7,14 +7,17 @@ public class HospitalManagement : MonoBehaviour
     public int Capacity { get; set; } = 100;
     public int Occupation { get; set; } = 0;
 
-    public GameObject HealthBar;
+    public GameObject HealthBarPrefab;
     private HealthBar healthBarScript;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        healthBarScript = HealthBar.GetComponent<HealthBar>();
+        Debug.Log("Started");
+        GameObject healthBar = Instantiate(HealthBarPrefab);
+        healthBar.transform.parent = transform;
+        healthBarScript = healthBar.GetComponent<HealthBar>();
         healthBarScript.UpdateBar(0f);
     }
 

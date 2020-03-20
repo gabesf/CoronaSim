@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HospitalCreation : MonoBehaviour
 {
-    public GameObject hospitalBoundaryPrefab;
-    private GameObject hospitalBoundary;
+    //public GameObject hospitalBoundaryPrefab;
+    //private GameObject hospitalBoundary;
     float currentScale = 0.0001f;
     // Start is called before the first frame update
     void Start()

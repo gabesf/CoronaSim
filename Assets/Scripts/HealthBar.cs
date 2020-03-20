@@ -7,7 +7,7 @@ public class HealthBar : MonoBehaviour
     private Transform bar;
     private SpriteRenderer barSprite;
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         bar = transform.Find("Bar");
         bar.localScale = new Vector3(0.4f, 1f, 1f);
@@ -22,13 +22,14 @@ public class HealthBar : MonoBehaviour
 
     private void SetSize(float sizeNormalized)
     {
+        print($"Inside {transform.root}");
         bar.localScale = new Vector3(sizeNormalized, 1);
     }
 
     public void UpdateBar(float sizeNormalized)
     {
-        print( transform.root.name);
-        print("Updating " + sizeNormalized);
+        //print( transform.root.name);
+        //print("Updating " + sizeNormalized);
         SetSize(sizeNormalized);
         UpdateColor(sizeNormalized);
     }
