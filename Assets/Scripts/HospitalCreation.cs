@@ -10,7 +10,7 @@ public class HospitalCreation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = Constants.HospitalPosition;
+        //transform.position = Constants.HospitalPosition;
         //hospitalBoundary = Instantiate(hospitalBoundaryPrefab);
         //hospitalBoundary.transform.parent = transform;
         //hospitalBoundary.transform.localPosition = Vector3.zero;

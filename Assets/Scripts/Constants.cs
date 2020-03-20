@@ -17,7 +17,7 @@ public static class Constants
 
     static public float WalkingSpeed { get; set; } = 30;
 
-    static public Vector3 HospitalPosition { get; set; } = new Vector3(-182, 82, 0);
+    static public Vector3 HospitalPosition { get; set; } = new Vector3(-140, 82, 0);
 
 
     static public float InfectingWithoutSignsTime { get; set; } = 50;

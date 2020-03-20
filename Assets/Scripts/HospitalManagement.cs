@@ -16,7 +16,11 @@ public class HospitalManagement : MonoBehaviour
     {
         Debug.Log("Started");
         GameObject healthBar = Instantiate(HealthBarPrefab);
+        transform.position = Constants.HospitalPosition;
         healthBar.transform.parent = transform;
+        healthBar.transform.localPosition = Vector3.zero;
+        healthBar.transform.localScale = new Vector3(1.5f, 2.0f, 1.0f);
+        healthBar.AddComponent<BoxCollider2D>();
         healthBarScript = healthBar.GetComponent<HealthBar>();
         healthBarScript.UpdateBar(0f);
     }
