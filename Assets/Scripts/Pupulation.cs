@@ -8,12 +8,14 @@ public class Pupulation : MonoBehaviour
     public GameObject healthBarPrefab;
     // Start is called before the first frame update
 
+    public bool popQntOverride = false;
+    public int populationQuantity = 1;
     
 
     void Start()
     {
-        
-        for(int i = 0; i < Constants.InitialPopulation; i++)
+        int numberOfPersons = popQntOverride ? populationQuantity : Constants.InitialPopulation;
+        for(int i = 0; i < numberOfPersons; i++)
         {
            
             GameObject person = Instantiate(personPrefab);
