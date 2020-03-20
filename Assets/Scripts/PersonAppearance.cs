@@ -64,8 +64,11 @@ public class PersonAppearance : MonoBehaviour
 
     public void UpdateBar()
     {
-        print(personHealth.Health);
-        healthBarScript.UpdateBar(personHealth.Health);
+        //print(personHealth.Health);
+        if(healthBarScript)
+        {
+            healthBarScript.UpdateBar(personHealth.Health);
+        }
     }
 
     // Update is called once per frame

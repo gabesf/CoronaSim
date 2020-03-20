@@ -141,7 +141,7 @@ public class PersonBehaviour : MonoBehaviour
         Walk();
 
 
-        if (collision.gameObject.name == "person")
+        if (collision.gameObject.tag == "person" || collision.gameObject.tag == "Patient0")
         {
             PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
             HealthStatus otherPersonCondition = otherPersonBehaviour.personHealth.Condition;

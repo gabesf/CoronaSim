@@ -20,6 +20,7 @@ public class Pupulation : MonoBehaviour
            
             GameObject person = Instantiate(personPrefab);
             person.name = "person"+i;
+            person.tag = "person";
             float xPos = Random.Range(-Constants.WorldSize.x, Constants.WorldSize.x);
             float yPos = Random.Range(-Constants.WorldSize.y, Constants.WorldSize.y);
 
@@ -39,7 +40,7 @@ public class Pupulation : MonoBehaviour
                 GameObject healthBar = Instantiate(healthBarPrefab);
                 healthBar.transform.parent = person.transform;
                 healthBar.name = "HealthBar";
-                healthBar.transform.localPosition = new Vector3(0f, 2f, 0f);
+                healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
             }
         }
     }
