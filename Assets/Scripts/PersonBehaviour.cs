@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HealthStatus
-{
-    Healthy,
-    Infected,
-    Sick,
-    Dead
-}
+
 
 public class Virus
 {
@@ -23,7 +17,7 @@ public class Virus
 
 public class PersonBehaviour : MonoBehaviour
 {
-
+    private PersonHealth health;
     //create a health quantity (relatively random) that is depleted by the virus
     //if the quantity is bellow some arbitrary level (go to hospital, go to intensive care) the person needs 
     //to go to the specified area or it's health depletes faster. If it goes to zero, the person goes to the morge.
@@ -36,8 +30,7 @@ public class PersonBehaviour : MonoBehaviour
     //private GameObject healthBar;
     private HealthBar healthBarScript;
 
-    public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
-    public bool Aware { get; set; } = true;
+    
     public bool ShouldGoToHospital { get; set; } = false;
 
     public bool HospitalAccess { get; set; } = false;
@@ -45,10 +38,7 @@ public class PersonBehaviour : MonoBehaviour
     private new Renderer renderer;
     private Rigidbody2D rb;
 
-    public int TimeInfected { get; set; } = 0;
-    public int TimeSick { get; set; } = 0;
-
-    public float Health { get; set; }
+    
 
     private Virus virus;
 
@@ -56,15 +46,15 @@ public class PersonBehaviour : MonoBehaviour
 
     private void Start()
     {
+        
         virus = new Virus();
-
         GameObject healthBar = GameObject.Find("HealthBar");
         if (healthBar)
         {
             healthBarScript = healthBar.GetComponent<HealthBar>();
-            healthBarScript.UpdateBar(Health);
+            healthBarScript.UpdateBar(health.Health);
         }
-        Health = Random.Range(500, 1000);
+        health.Health = Random.Range(500, 1000);
         
         UpdateMaterial();
 
@@ -77,7 +67,7 @@ public class PersonBehaviour : MonoBehaviour
     private void GenerateRandomAwareness()
     {
         float chance = Random.Range(0f, 1f);
-        Aware = chance < Constants.BeAwareChance ? true : false;
+        health.Aware = chance < Constants.BeAwareChance ? true : false;
     }
 
     private void GenerateRandomNecessityToGoToHospital()
@@ -89,9 +79,9 @@ public class PersonBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        health = gameObject.GetComponent<PersonHealth>();
         renderer = gameObject.GetComponent<Renderer>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        
     }
 
     private bool IsInsideHospital()
@@ -107,34 +97,37 @@ public class PersonBehaviour : MonoBehaviour
     
     void Update()
     {
-        
-
-        switch(Condition)
+        switch(health.Condition)
         {
             case HealthStatus.Healthy:
                 rb.velocity = rb.velocity.normalized * Constants.WalkingSpeed;
                 break;
 
             case HealthStatus.Infected:
-                Health -= virus.Damage;
+                health.Health -= virus.Damage;
 
-                TimeInfected ++;
-                if(TimeInfected > Constants.InfectingWithoutSignsTime)
+                health.TimeInfected++;
+                if(health.TimeInfected > Constants.InfectingWithoutSignsTime)
                 {
-                    Condition = HealthStatus.Sick;
+                    health.Condition = HealthStatus.Sick;
                     GenerateRandomNecessityToGoToHospital();
                     UpdateMaterial();
                 }
                 break;
 
             case HealthStatus.Sick:
-                Health -= virus.Damage;
+                health.Health -= virus.Damage;
 
-                TimeSick++; 
+                health.TimeSick++; 
 
                 if(ShouldGoToHospital)
                 {
-                    //gameObject.layer = 12;
+                    //if already going to hospital, don't change layer
+                    if(gameObject.layer !=9)
+                    {
+                        gameObject.layer = 12;
+
+                    }
                     if (IsInsideHospital())
                     {
 
@@ -149,7 +142,7 @@ public class PersonBehaviour : MonoBehaviour
                     }
                 } else
                 {
-                    Aware = true;
+                    health.Aware = true;
                 }
 
                 
@@ -161,7 +154,7 @@ public class PersonBehaviour : MonoBehaviour
                 break;
         }
 
-        if (Aware) rb.velocity = Vector2.zero;
+        if (health.Aware) rb.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -173,23 +166,25 @@ public class PersonBehaviour : MonoBehaviour
         if (collision.gameObject.name == "person")
         {
             PersonBehaviour otherPersonBehaviour = collision.gameObject.GetComponent<PersonBehaviour>();
-            HealthStatus otherPersonCondition = otherPersonBehaviour.Condition;
+            HealthStatus otherPersonCondition = otherPersonBehaviour.health.Condition;
             HandlePersonsTouched(otherPersonCondition);
         }
 
-        if (collision.gameObject.name == "HospitalBody" && Condition == HealthStatus.Sick)
+        if (collision.gameObject.name == "HospitalBody" && health.Condition == HealthStatus.Sick && gameObject.layer == 12 )
         {
+            print("Asking Admission");
             collision.transform.root.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);            
         }
     }
 
     private void HandlePersonsTouched(HealthStatus otherPersonCondition)
     {
-        if (Condition == HealthStatus.Healthy)
+        if (health.Condition == HealthStatus.Healthy)
         {
             if (otherPersonCondition == HealthStatus.Infected)
             {
-                Condition = HealthStatus.Infected;
+                health.ContractVirus();
+                
                 UpdateMaterial();
             }
         }
@@ -197,7 +192,7 @@ public class PersonBehaviour : MonoBehaviour
 
     private void Walk()
     {
-        if (!Aware)
+        if (!health.Aware)
         {
             Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             randomDirection = randomDirection.normalized;
@@ -217,7 +212,7 @@ public class PersonBehaviour : MonoBehaviour
 
     private void UpdateMaterial()
     {
-        switch (Condition)
+        switch (health.Condition)
         {
             case HealthStatus.Healthy:
                 renderer.material = healthy;

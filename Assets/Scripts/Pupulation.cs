@@ -30,7 +30,9 @@ public class Pupulation : MonoBehaviour
             person.layer = 8;
             if (i == 0)
             {
-                person.GetComponent<PersonBehaviour>().Condition = HealthStatus.Infected;
+                person.GetComponent<PersonHealth>().ContractVirus();
+                //person.GetComponent<PersonHealth>().Condition = HealthStatus.Infected;
+                
                 person.tag = "Patient0";
                 person.transform.position = new Vector3(300, -60, 0);
                 

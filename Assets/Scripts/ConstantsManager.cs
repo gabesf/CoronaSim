@@ -15,7 +15,7 @@ public class ConstantsManager : MonoBehaviour
     {
         walkingSpeed.onValueChanged.AddListener(delegate { SetWalkingSpeed(); } );
         infectingWithoutSigns.onValueChanged.AddListener(delegate { SetInfectingWithoutSignsTime(); });
-        virusMortality.onValueChanged.AddListener(delegate { SetVirusMortality(); });
+        //virusMortality.onValueChanged.AddListener(delegate { SetVirusMortality(); });
 
         SetWalkingSpeed();
         SetInfectingWithoutSignsTime();
@@ -24,7 +24,7 @@ public class ConstantsManager : MonoBehaviour
 
     private void SetVirusMortality()
     {
-        Constants.VirusMortalityRate = Constants.MaxVirusMortalityRate * virusMortality.value;
+        //Constants.VirusMortalityRate = Constants.MaxVirusMortalityRate * virusMortality.value;
     }
 
     private void SetInfectingWithoutSignsTime()

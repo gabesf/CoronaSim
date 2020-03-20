@@ -30,7 +30,6 @@ public class HospitalManagement : MonoBehaviour
         if(Occupation < Capacity)
         {
             Occupation++;
-            person.GetComponent<PersonBehaviour>().HospitalAccess = true;
             person.layer = 9;
             float OccupancyRatio = (float)Occupation / (float)Capacity;
             print($"Occupancy: {OccupancyRatio}");
