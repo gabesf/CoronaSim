@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class VirusHealth : MonoBehaviour
 {
-    private float Health { get; set; } = 100;
+    private VirusAppearance virusAppearance;
+    private float Health { get; set; } = 1;
 
     public void ReceiveAttack(float damage)
     {
@@ -14,12 +15,14 @@ public class VirusHealth : MonoBehaviour
         {
             transform.parent.GetComponent<PersonHealth>().RemoveVirus();
         }
+
+        virusAppearance.UpdateBar(Health);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        virusAppearance = gameObject.GetComponent<VirusAppearance>();
     }
 
     // Update is called once per frame

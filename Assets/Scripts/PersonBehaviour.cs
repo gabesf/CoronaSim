@@ -168,7 +168,7 @@ public class PersonBehaviour : MonoBehaviour
         }
     }
 
-    private void Walk()
+    public void Walk()
     {
         if (!personHealth.Aware)
         {

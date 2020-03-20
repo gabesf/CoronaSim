@@ -24,7 +24,9 @@ public class PersonAppearance : MonoBehaviour
             Debug.Log(healthBar.transform.parent.name);
             Debug.Log("Have a health bar");
             healthBarScript = healthBar.GetComponent<HealthBar>();
+            healthBarScript.SetColor(Color.red);
             healthBarScript.UpdateBar(personHealth.Health);
+
         } 
         UpdateMaterial();
     }

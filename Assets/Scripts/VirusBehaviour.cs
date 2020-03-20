@@ -6,7 +6,7 @@ public class VirusBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
     private PersonHealth personHealth;
-    private float attackPower = 0.001f;
+    private float attackPower = 0.002f;
     private void Awake()
     {
         

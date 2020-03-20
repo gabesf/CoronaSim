@@ -12,6 +12,19 @@ public class Pupulation : MonoBehaviour
     public int populationQuantity = 1;
     
 
+    public void Populate()
+    {
+
+    }
+
+    public void RemoveAllPeople()
+    {
+        foreach (Transform t in transform)
+        {
+            print(t.name);
+        }
+    }
+
     void Start()
     {
         int numberOfPersons = popQntOverride ? populationQuantity : Constants.InitialPopulation;

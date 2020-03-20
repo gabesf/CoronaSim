@@ -11,10 +11,29 @@ public enum HealthStatus
     Cured
 }
 
+public enum MedicalNeeds
+{
+    Hospital,
+    Respirator,
+    None
+}
+
+public enum ReceivingCare
+{
+    None,
+    Hospital,
+    Respirator
+}
+
 public class PersonHealth : MonoBehaviour
 {
     public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
+    public MedicalNeeds Needs { get; set; } = MedicalNeeds.None;
+    public ReceivingCare Care { get; set; } = ReceivingCare.None;
     private PersonAppearance personAppearance;
+    private PersonBehaviour personBehaviour;
+    private float attackPower = 0.002f;
+    private float selfHealRate = 0.0005f;
 
     public GameObject virusPrefab;
     public bool Aware { get; set; } = true;
@@ -29,6 +48,7 @@ public class PersonHealth : MonoBehaviour
     private void Awake()
     {
         personAppearance = gameObject.GetComponent<PersonAppearance>();
+        personBehaviour = gameObject.GetComponent<PersonBehaviour>();
         Health = Random.Range(0.8f, 1);
     }
 
@@ -51,19 +71,39 @@ public class PersonHealth : MonoBehaviour
         virusPresent = false;
         virusHealth = null;
         Condition = HealthStatus.Cured;
-        personAppearance.UpdateMaterial();
-        
+        gameObject.layer = 8;
+        personBehaviour.Walk();
+        personAppearance.UpdateMaterial(); 
     }
 
     private void AttackVirus()
     {
-        virusHealth.ReceiveAttack(0.1f);
+        virusHealth.ReceiveAttack(attackPower);
+    }
+
+    private float CalculateAttackMultiplier()
+    {
+        switch (Needs)
+        {
+            case MedicalNeeds.None: return 1f;
+            case MedicalNeeds.Hospital: return 3f;
+            case MedicalNeeds.Respirator: return 10f;
+            default: return 1f;
+        }
     }
 
     public void ReceiveAttack(float damage)
     {
-        Health -= damage;
-        personAppearance.UpdateBar();
+
+        float damageMultiplier = CalculateAttackMultiplier();
+        
+        Health -= (damage * damageMultiplier);
+        //personAppearance.UpdateBar();
+
+        if (Health > 0.8) Needs = MedicalNeeds.None;
+        if (Health < 0.5) Needs = MedicalNeeds.Hospital;
+        if (Health < 0.1) Needs = MedicalNeeds.Respirator;
+
         if (Health <= 0)
         {
             Health = 0;
@@ -77,13 +117,36 @@ public class PersonHealth : MonoBehaviour
         personAppearance.UpdateMaterial();
     }
 
+    private float CalculateHealMultiplier()
+    {
+        switch (Care)
+        {
+            case ReceivingCare.None: return 1;
+            case ReceivingCare.Hospital: return 10;
+            case ReceivingCare.Respirator: return 50;
+            default: return 1;
+        }
+    }
+
+    private void SelfHeal()
+    {
+        if (Health<1 && Condition != HealthStatus.Dead)
+        {
+            float healMultiplier = CalculateHealMultiplier();
+            Health += selfHealRate * healMultiplier;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
+        SelfHeal();
         if(virusPresent && Condition!=HealthStatus.Dead)
         {
             AttackVirus();
         }
+
+        personAppearance.UpdateBar();
+
     }
 }

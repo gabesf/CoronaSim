@@ -14,10 +14,14 @@ public class HealthBar : MonoBehaviour
         barSprite = bar.Find("BarSprite").GetComponent<SpriteRenderer>();
     }
 
+    public void SetColor(Color32 color)
+    {
+        barSprite.color = color;
+    }
 
     private void UpdateColor(float sizeNormalized)
     {
-        barSprite.color = Color.red;
+        //barSprite.color = Color.red;
     }
 
     private void SetSize(float sizeNormalized)
@@ -28,9 +32,8 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateBar(float sizeNormalized)
     {
-        //print( transform.root.name);
-        //print("Updating " + sizeNormalized);
+        
         SetSize(sizeNormalized);
-        UpdateColor(sizeNormalized);
+        //UpdateColor(sizeNormalized);
     }
 }
