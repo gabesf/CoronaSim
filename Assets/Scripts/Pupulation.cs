@@ -11,6 +11,19 @@ public class Pupulation : MonoBehaviour
     public bool popQntOverride = false;
     public int populationQuantity = 1;
     
+    public void ChangeStateHealthBars(ShowHealthBar showHealthBar)
+    {
+        bool showAll = false;
+        if(showHealthBar == ShowHealthBar.all)
+        {
+            showAll = true;
+        }
+        foreach (Transform t in transform)
+        {
+            Transform healthBarTransform = t.Find("HealthBar");
+            healthBarTransform.gameObject.SetActive(showAll);
+        }
+    }
 
     public void Populate()
     {
@@ -29,6 +42,18 @@ public class Pupulation : MonoBehaviour
             person.transform.position = new Vector2(xPos, yPos);
             person.transform.parent = transform;
             person.layer = 8;
+
+
+            GameObject healthBar = Instantiate(healthBarPrefab);
+            healthBar.transform.parent = person.transform;
+            healthBar.name = "HealthBar";
+            healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
+            healthBar.SetActive(false);
+            
+            if(Constants.HealthBarDisplay == ShowHealthBar.all)
+            {
+                healthBar.SetActive(true);
+            }
             if (i == 0)
             {
                 person.GetComponent<PersonHealth>().ContractVirus();
@@ -37,10 +62,7 @@ public class Pupulation : MonoBehaviour
                 person.tag = "Patient0";
                 person.transform.position = new Vector3(300, -60, 0);
 
-                GameObject healthBar = Instantiate(healthBarPrefab);
-                healthBar.transform.parent = person.transform;
-                healthBar.name = "HealthBar";
-                healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
+                
             }
         }
     }
@@ -56,40 +78,9 @@ public class Pupulation : MonoBehaviour
 
     void Start()
     {
-        int numberOfPersons = popQntOverride ? populationQuantity : Constants.InitialPopulation;
-        for(int i = 0; i < numberOfPersons; i++)
-        {
-           
-            GameObject person = Instantiate(personPrefab);
-            person.name = "person"+i;
-            person.tag = "person";
-            float xPos = Random.Range(-Constants.WorldSize.x, Constants.WorldSize.x);
-            float yPos = Random.Range(-Constants.WorldSize.y, Constants.WorldSize.y);
-
-
-
-            person.transform.position = new Vector2(xPos, yPos);
-            person.transform.parent = transform;
-            person.layer = 8;
-            if (i == 0)
-            {
-                person.GetComponent<PersonHealth>().ContractVirus();
-                //person.GetComponent<PersonHealth>().Condition = HealthStatus.Infected;
-                
-                person.tag = "Patient0";
-                person.transform.position = new Vector3(300, -60, 0);
-                
-                GameObject healthBar = Instantiate(healthBarPrefab);
-                healthBar.transform.parent = person.transform;
-                healthBar.name = "HealthBar";
-                healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
-            }
-        }
+        Populate();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

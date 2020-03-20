@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ResetButton : MonoBehaviour
+public class ButtonsFunctionallity : MonoBehaviour
 {
     private Pupulation populationScript;
     public void ReloadScene()

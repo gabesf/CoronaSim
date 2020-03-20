@@ -5,8 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum ShowHealthBar
+{
+    all,
+    infected,
+    none,
+    OnClick
+}
+
 public static class Constants
     {
+    static public ShowHealthBar HealthBarDisplay = ShowHealthBar.infected;
     static public int InitialPopulation { get; set; } = 500;
     static public Vector2 WorldSize { get; set; } = new Vector2(355, 200);
 
