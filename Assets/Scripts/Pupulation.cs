@@ -22,7 +22,6 @@ public class Pupulation : MonoBehaviour
                     person.gameObject.GetComponent<PersonAppearance>().SetBarActive(false);
                     if (person.gameObject.GetComponent<PersonHealth>().VirusPresent)
                     {
-                        Debug.Log("will deactivate");
                         person.gameObject.GetComponentInChildren<VirusAppearance>().SetBarActive(false);
                         //person.gameObject.GetComponent<VirusAppearance>().SetBarActive(false);
                     }
