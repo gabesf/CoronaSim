@@ -18,6 +18,7 @@ public static class Constants
 
     static public int NumberOfDead { get; set; } = 0;
     static public int NumberOfCured { get; set; } = 0;
+    static public int NumberOfInfected { get; set; } = 0;
 
     static public ShowHealthBar HealthBarDisplay = ShowHealthBar.infected;
     static public int InitialPopulation { get; set; } = 50;

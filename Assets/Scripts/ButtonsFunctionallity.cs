@@ -16,8 +16,14 @@ public class ButtonsFunctionallity : MonoBehaviour
     {
         GameObject population = GameObject.Find("Population");
         populationScript = population.GetComponent<Pupulation>();
+        Constants.NumberOfInfected = 0;
+        Constants.NumberOfDead = 0;
+        Constants.NumberOfCured = 0;
+        GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>().UpdateStats();
+
         populationScript.RemoveAllPeople();
         populationScript.Populate();
+
             //print("will repopulate");
     }
 }

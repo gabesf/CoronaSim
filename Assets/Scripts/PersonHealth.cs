@@ -27,6 +27,7 @@ public enum ReceivingCare
 
 public class PersonHealth : MonoBehaviour
 {
+    private ConstantsManager constantsManager;
     public HealthStatus Condition { get; set; } = HealthStatus.Healthy;
     public MedicalNeeds Needs { get; set; } = MedicalNeeds.None;
     public ReceivingCare Care { get; set; } = ReceivingCare.None;
@@ -50,8 +51,14 @@ public class PersonHealth : MonoBehaviour
         Health = Random.Range(0.8f, 1);
     }
 
+    private void Start()
+    {
+        constantsManager = GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>();
+    }
+
     public void ContractVirus()
     {
+        if (!constantsManager) Start();
         virus = Instantiate(virusPrefab);
         virus.name = "virus";
         VirusPresent = true;
@@ -59,6 +66,8 @@ public class PersonHealth : MonoBehaviour
         virus.transform.parent = transform;
         virus.transform.localPosition = Vector3.zero;
         Condition = HealthStatus.Infected;
+        Constants.NumberOfInfected++;
+        constantsManager.UpdateStats();
         personAppearance.UpdateMaterial();
         if(Constants.HealthBarDisplay == ShowHealthBar.infected || Constants.HealthBarDisplay == ShowHealthBar.all)
         {
@@ -79,6 +88,10 @@ public class PersonHealth : MonoBehaviour
         
         personBehaviour.Walk();
         Constants.NumberOfCured++;
+        Constants.NumberOfInfected--;
+
+        constantsManager.UpdateStats();
+
         personAppearance.UpdateMaterial(); 
     }
 
@@ -121,6 +134,8 @@ public class PersonHealth : MonoBehaviour
     {
         Condition = HealthStatus.Dead;
         Constants.NumberOfDead++;
+        Constants.NumberOfInfected--;
+        constantsManager.UpdateStats();
         personAppearance.UpdateMaterial();
     }
 

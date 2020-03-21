@@ -19,6 +19,10 @@ public class ConstantsManager : MonoBehaviour
     public Slider hospitalCapacity;
     public Slider intensiveCareCapacity;
     public Slider personSize;
+    public Text population;
+    public Text numberOfDead;
+    public Text numberOfCured;
+    public Text numberOfInfected;
 
     private bool ShowSliderValue = true;
     public void Start()
@@ -156,5 +160,13 @@ public class ConstantsManager : MonoBehaviour
         walkingSpeedLabel.text = $"Walking Speed - {Constants.WalkingSpeed.ToString("F3")}";
 
 
+    }
+
+    public void UpdateStats()
+    {
+        population.text = Constants.InitialPopulation.ToString();
+        numberOfInfected.text = $"# Infected: {Constants.NumberOfInfected.ToString()}";
+        numberOfDead.text = $"# Dead: {Constants.NumberOfDead.ToString()}";
+        numberOfCured.text = $"# Cured: {Constants.NumberOfCured.ToString()}"; 
     }
 }
