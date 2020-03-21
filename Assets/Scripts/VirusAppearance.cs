@@ -20,7 +20,19 @@ public class VirusAppearance : MonoBehaviour
             healthBar.transform.localPosition = new Vector3(0, 1.25f, 0f);
             healthBarScript = healthBar.GetComponent<HealthBar>();
             healthBarScript.SetColor(Color.green);
+            if(Constants.HealthBarDisplay == ShowHealthBar.all || Constants.HealthBarDisplay == ShowHealthBar.infected)
+            {
+                SetBarActive(true);
+            } else
+            {
+                SetBarActive(false);
+            }
         }
+    }
+
+    public void SetBarActive(bool active)
+    {
+        healthBar.SetActive(active);
     }
 
     public void UpdateBar(float healthNormalized)

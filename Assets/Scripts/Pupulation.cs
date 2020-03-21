@@ -54,17 +54,55 @@ public class Pupulation : MonoBehaviour
             {
                 healthBar.SetActive(true);
             }
-            if (i == 0)
+
+            
+            //if (i == 0)
+            //{
+            //    person.GetComponent<PersonHealth>().ContractVirus();
+            //    //person.GetComponent<PersonHealth>().Condition = HealthStatus.Infected;
+            //
+            //    person.tag = "Patient0";
+            //    person.transform.position = new Vector3(300, -60, 0);
+            //
+            //    
+            //}
+        }
+        InfectPopulation();
+    }
+
+    private void InfectPopulation()
+    {
+        List<Transform> persons = new List<Transform>();
+        foreach (Transform t in transform)
+        {
+            if(t.tag == "person")
             {
-                person.GetComponent<PersonHealth>().ContractVirus();
-                //person.GetComponent<PersonHealth>().Condition = HealthStatus.Infected;
-
-                person.tag = "Patient0";
-                person.transform.position = new Vector3(300, -60, 0);
-
-                
+                persons.Add(t);
             }
         }
+
+        int numberOfInitialInfected = (int)(persons.Count * Constants.InitialInfectionProportion);
+        if (numberOfInitialInfected < 1) numberOfInitialInfected = 1;
+        print($"There are {persons.Count} and {numberOfInitialInfected} should be infected");
+        List<int> personsIdToBeInfected = new List<int>();
+
+        while(personsIdToBeInfected.Count < numberOfInitialInfected)
+        {
+            int personId = Random.Range(0, persons.Count);
+            if (!personsIdToBeInfected.Contains(personId)) personsIdToBeInfected.Add(personId);
+        }
+
+        print($"There are {personsIdToBeInfected.Count} in personsToBeInfected");
+
+        foreach (int personId in personsIdToBeInfected)
+        {
+            
+            print("Will infect " + personId);
+            persons[personId].gameObject.GetComponent<PersonHealth>().ContractVirus();
+
+        }
+
+
     }
 
     public void RemoveAllPeople()

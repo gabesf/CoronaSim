@@ -32,8 +32,6 @@ public class PersonHealth : MonoBehaviour
     public ReceivingCare Care { get; set; } = ReceivingCare.None;
     private PersonAppearance personAppearance;
     private PersonBehaviour personBehaviour;
-    private float attackPower = 0.002f;
-    private float selfHealRate = 0.0005f;
 
     public GameObject virusPrefab;
     public bool Aware { get; set; } = true;
@@ -62,6 +60,11 @@ public class PersonHealth : MonoBehaviour
         virus.transform.localPosition = Vector3.zero;
         Condition = HealthStatus.Infected;
         personAppearance.UpdateMaterial();
+
+        if(Constants.HealthBarDisplay == ShowHealthBar.infected || Constants.HealthBarDisplay == ShowHealthBar.all)
+        {
+            //personAppearance.SetBarActive(true);    
+        }
         
     }
 
@@ -73,12 +76,13 @@ public class PersonHealth : MonoBehaviour
         Condition = HealthStatus.Cured;
         gameObject.layer = 8;
         personBehaviour.Walk();
+        
         personAppearance.UpdateMaterial(); 
     }
 
     private void AttackVirus()
     {
-        virusHealth.ReceiveAttack(attackPower);
+        virusHealth.ReceiveAttack(Constants.PersonAttackPower);
     }
 
     private float CalculateAttackMultiplier()
@@ -133,8 +137,10 @@ public class PersonHealth : MonoBehaviour
         if (Health<1 && Condition != HealthStatus.Dead)
         {
             float healMultiplier = CalculateHealMultiplier();
-            Health += selfHealRate * healMultiplier;
+            Health += Constants.PersonSelfHealRate * healMultiplier;
         }
+
+        if (Health > 1) Health = 1;
     }
 
     // Update is called once per frame

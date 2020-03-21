@@ -12,17 +12,17 @@ public class PersonAppearance : MonoBehaviour
 
 
     private HealthBar healthBarScript;
+    GameObject healthBar;
     private new Renderer renderer;
-
     private PersonHealth personHealth;
     // Start is called before the first frame update
     void Start()
     {
         if (gameObject.transform.Find("HealthBar"))
         {
-            GameObject healthBar = transform.Find("HealthBar").gameObject;
-            Debug.Log(healthBar.transform.parent.name);
-            Debug.Log("Have a health bar");
+            healthBar = gameObject.transform.Find("HealthBar").gameObject;
+            //Debug.Log(healthBar.transform.parent.name);
+            //Debug.Log("Have a health bar");
             healthBarScript = healthBar.GetComponent<HealthBar>();
             healthBarScript.SetColor(Color.red);
             healthBarScript.UpdateBar(personHealth.Health);
@@ -31,8 +31,14 @@ public class PersonAppearance : MonoBehaviour
         UpdateMaterial();
     }
 
+    public void SetBarActive(bool active)
+    {
+        healthBar.SetActive(active);
+    }
+
     private void Awake()
     {
+        //healthBar = transform.Find("HealthBar").gameObject;
         personHealth = gameObject.GetComponent<PersonHealth>();
         renderer = gameObject.GetComponent<Renderer>();
     }
@@ -63,6 +69,8 @@ public class PersonAppearance : MonoBehaviour
                 break;
         }
     }
+
+    
 
     public void UpdateBar()
     {

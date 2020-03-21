@@ -6,7 +6,8 @@ public class VirusBehaviour : MonoBehaviour
 {
     // Start is called before the first frame update
     private PersonHealth personHealth;
-    private float attackPower = 0.002f;
+    //private float attackPower = Constants.VirusAttackPower;
+
     private void Awake()
     {
         
@@ -24,7 +25,7 @@ public class VirusBehaviour : MonoBehaviour
     private void AttackPerson()
     {
         
-            personHealth.ReceiveAttack(attackPower);
+            personHealth.ReceiveAttack(Constants.VirusAttackPower);
         
     }
 

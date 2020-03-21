@@ -12,18 +12,55 @@ public class ConstantsManager : MonoBehaviour
     public Slider virusMortality;
     public Slider populationSize;
     public Slider showHealthBar;
+    public Slider selfHealingSlider;
+    public Slider virusAggressivenessSlider;
+    public Slider personReactionToVirusSlider;
 
+    private bool ShowSliderValue = true;
     public void Start()
     {
         walkingSpeed.onValueChanged.AddListener(delegate { SetWalkingSpeed(); } );
         infectingWithoutSigns.onValueChanged.AddListener(delegate { SetInfectingWithoutSignsTime(); });
         populationSize.onValueChanged.AddListener(delegate { SetPopulationSize(); });
         showHealthBar.onValueChanged.AddListener(delegate { ChangeHealthBarDisplay(); });
+        personReactionToVirusSlider.onValueChanged.AddListener(delegate { SetPersonReactionToVirus(); });
+        virusAggressivenessSlider.onValueChanged.AddListener(delegate { SetVirusAttackPower(); });
+        selfHealingSlider.onValueChanged.AddListener(delegate { SetSelfHealingPower(); });
         //virusMortality.onValueChanged.AddListener(delegate { SetVirusMortality(); });
 
+        ChangeHealthBarDisplay();
         SetWalkingSpeed();
         SetInfectingWithoutSignsTime();
         SetVirusMortality();
+        SetPersonReactionToVirus();
+        SetSelfHealingPower();
+        SetVirusAttackPower();
+        SetPopulationSize();
+    }
+
+    private void SetSelfHealingPower()
+    {
+        string sliderValue = ShowSliderValue ? selfHealingSlider.value.ToString("F3") : "";
+        Text PersonSelfHealRateLabel = GameObject.Find("PersonSelfHealing").GetComponent<Text>();
+        Constants.PersonSelfHealRate = selfHealingSlider.value * Constants.PersonSelfHealMaxRate;
+        PersonSelfHealRateLabel.text = $"Self Healing {Constants.PersonSelfHealRate.ToString("F3")} " + sliderValue;
+
+    }
+
+    private void SetVirusAttackPower()
+    {
+      
+        Constants.VirusAttackPower = virusAggressivenessSlider.value * Constants.VirusAttackPowerMax;
+        Text virusAggressivenessLabel = GameObject.Find("VirusAggressiveness").GetComponent<Text>();
+        virusAggressivenessLabel.text = $"Virus Aggressiviness - {Constants.VirusAttackPower.ToString("F3")}";
+    }
+
+    private void SetPersonReactionToVirus()
+    {
+        Text PersonReactionToVirusLabel = GameObject.Find("PersonReactionToVirus").GetComponent<Text>();
+
+        Constants.PersonAttackPower = personReactionToVirusSlider.value * Constants.PersonAttackPowerMax;
+        PersonReactionToVirusLabel.text = $"Reaction to Virus - {Constants.PersonAttackPower.ToString("F3")}";
     }
 
 
@@ -90,6 +127,8 @@ public class ConstantsManager : MonoBehaviour
         float walkingSpeedCalculated = Constants.MaxWalkingSpeed * walkingSpeed.value;
         if (walkingSpeedCalculated <= 0) walkingSpeedCalculated = 0.01f;
         Constants.WalkingSpeed = walkingSpeedCalculated;
+        Text walkingSpeedLabel = GameObject.Find("WalkingSpeed").GetComponent<Text>();
+        walkingSpeedLabel.text = $"Walking Speed - {Constants.WalkingSpeed.ToString("F3")}";
 
 
     }
