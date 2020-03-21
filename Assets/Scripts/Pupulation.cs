@@ -14,7 +14,6 @@ public class Pupulation : MonoBehaviour
     public void ChangeStateHealthBars(ShowHealthBar showHealthBar)
     {
         List<Transform> persons = GetAllPersons();
-
         switch (showHealthBar)
         {
             case ShowHealthBar.none:
@@ -44,6 +43,8 @@ public class Pupulation : MonoBehaviour
             case ShowHealthBar.infected:
                 foreach (Transform person in persons)
                 {
+                    person.gameObject.GetComponent<PersonAppearance>().SetBarActive(false);
+
                     if (person.gameObject.GetComponent<PersonHealth>().VirusPresent)
                     {
                         person.gameObject.GetComponent<PersonAppearance>().SetBarActive(true);
@@ -99,10 +100,11 @@ public class Pupulation : MonoBehaviour
             healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
             healthBar.SetActive(false);
             
-            if(Constants.HealthBarDisplay == ShowHealthBar.all)
+            if(Constants.HealthBarDisplay == ShowHealthBar.all || Constants.HealthBarDisplay == ShowHealthBar.infected)
             {
-                healthBar.SetActive(true);
+                //healthBar.SetActive(true);
             }
+
 
             
             //if (i == 0)
@@ -117,6 +119,7 @@ public class Pupulation : MonoBehaviour
             //}
         }
         InfectPopulation();
+        ChangeStateHealthBars(Constants.HealthBarDisplay);
     }
 
     private List<Transform> GetAllPersons()
@@ -140,7 +143,7 @@ public class Pupulation : MonoBehaviour
         int numberOfInitialInfected = (int)(persons.Count * Constants.InitialInfectionProportion);
         if (numberOfInitialInfected < 1) numberOfInitialInfected = 1;
 
-        print($"There are {persons.Count} and {numberOfInitialInfected} should be infected");
+        //print($"There are {persons.Count} and {numberOfInitialInfected} should be infected");
         List<int> personsIdToBeInfected = new List<int>();
 
         while(personsIdToBeInfected.Count < numberOfInitialInfected)
@@ -149,12 +152,12 @@ public class Pupulation : MonoBehaviour
             if (!personsIdToBeInfected.Contains(personId)) personsIdToBeInfected.Add(personId);
         }
 
-        print($"There are {personsIdToBeInfected.Count} in personsToBeInfected");
+        //print($"There are {personsIdToBeInfected.Count} in personsToBeInfected");
 
         foreach (int personId in personsIdToBeInfected)
         {
             
-            print("Will infect " + personId);
+            //print("Will infect " + personId);
             persons[personId].gameObject.GetComponent<PersonHealth>().ContractVirus();
 
         }

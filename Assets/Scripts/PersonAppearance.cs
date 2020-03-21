@@ -33,8 +33,13 @@ public class PersonAppearance : MonoBehaviour
 
     public void SetBarActive(bool active)
     {
+        if(!healthBar)
+        {
+            Start();
+        }
         healthBar.SetActive(active);
-        
+
+
     }
 
     private void Awake()

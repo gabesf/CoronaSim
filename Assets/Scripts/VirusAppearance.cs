@@ -33,8 +33,18 @@ public class VirusAppearance : MonoBehaviour
 
     public void SetBarActive(bool active)
     {
-        //Debug.Log("Being called");
+        if(!healthBar)
+        {
+            Start();
+        }
+        
         healthBar.SetActive(active);
+        
+    }
+
+    public void DestroyHealthBar()
+    {
+        Destroy(healthBar);
     }
 
     public void UpdateBar(float healthNormalized)

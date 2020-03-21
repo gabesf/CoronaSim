@@ -15,6 +15,10 @@ public enum ShowHealthBar
 
 public static class Constants
     {
+
+    static public int NumberOfDead { get; set; } = 0;
+    static public int NumberOfCured { get; set; } = 0;
+
     static public ShowHealthBar HealthBarDisplay = ShowHealthBar.infected;
     static public int InitialPopulation { get; set; } = 50;
     static public Vector2 WorldSize { get; set; } = new Vector2(355, 200);

@@ -93,9 +93,10 @@ public class ConstantsManager : MonoBehaviour
         Text showHealthBarLabel = GameObject.Find("ShowHealthBar").GetComponent<Text>();
         int value = (int)showHealthBar.value;
 
-        
+        //GameObject.Find("Population").GetComponent<Pupulation>().ChangeStateHealthBars();
 
-        switch(value)
+
+        switch (value)
         {
             case 0:
                 Constants.HealthBarDisplay = ShowHealthBar.none;
@@ -115,12 +116,11 @@ public class ConstantsManager : MonoBehaviour
                 Constants.HealthBarDisplay = ShowHealthBar.OnClick;
                 showHealthBarLabel.text = "Show Health Bar - On Click";
                 break;
-
-
         }
 
+        //print("Will call");
         GameObject.Find("Population").GetComponent<Pupulation>().ChangeStateHealthBars(Constants.HealthBarDisplay);
-
+        //print("Called");
 
     }
 

@@ -150,7 +150,7 @@ public class PersonBehaviour : MonoBehaviour
 
         if (collision.gameObject.name == "HospitalBody" && personHealth.Condition == HealthStatus.Sick && gameObject.layer == 12 )
         {
-            print("Asking Admission");
+            //print("Asking Admission");
             collision.transform.root.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);            
         }
     }

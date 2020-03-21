@@ -60,23 +60,25 @@ public class PersonHealth : MonoBehaviour
         virus.transform.localPosition = Vector3.zero;
         Condition = HealthStatus.Infected;
         personAppearance.UpdateMaterial();
-        print("Infecting!");
         if(Constants.HealthBarDisplay == ShowHealthBar.infected || Constants.HealthBarDisplay == ShowHealthBar.all)
         {
-            //personAppearance.SetBarActive(true);    
+            personAppearance.SetBarActive(true);    
         }
         
     }
 
     public void RemoveVirus()
     {
+        virus.GetComponent<VirusAppearance>().DestroyHealthBar();
+        
         Destroy(virus);
         VirusPresent = false;
         virusHealth = null;
         Condition = HealthStatus.Cured;
         gameObject.layer = 8;
-        personBehaviour.Walk();
         
+        personBehaviour.Walk();
+        Constants.NumberOfCured++;
         personAppearance.UpdateMaterial(); 
     }
 
@@ -118,6 +120,7 @@ public class PersonHealth : MonoBehaviour
     private void Die()
     {
         Condition = HealthStatus.Dead;
+        Constants.NumberOfDead++;
         personAppearance.UpdateMaterial();
     }
 

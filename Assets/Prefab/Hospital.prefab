@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthBarPrefab: {fileID: 6361404197246350534, guid: fc40b1c3a85e7274fa232eb761f5666f,
     type: 3}
+  HospitalDisplayPrefab: {fileID: 8749682681272693711, guid: 8bf3d5b6dde650140889b80f9deb9598,
+    type: 3}
 --- !u!1001 &7769647519821452865
 PrefabInstance:
   m_ObjectHideFlags: 0
