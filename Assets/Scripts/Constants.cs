@@ -40,10 +40,15 @@ public static class Constants
     static public Vector3 HospitalPosition { get; set; } = new Vector3(-140, 82, 0);
 
     static public float InitialInfectionProportion = 0.01f;
+    static public float InitialInfectionProportionMax { get; } = 0.25f;
 
     static public float InfectingWithoutSignsTime { get; set; } = 50;
 
     static public float VirusMortalityRate { get; set; }
+
+    static public Vector3 PersonSize { get; set; }
+    static public float PersonSizeMax { get; } = 10;
+
 
     //static public float infectionRate = 0.1f;
     //static public float infectionTimeLimit = 50;

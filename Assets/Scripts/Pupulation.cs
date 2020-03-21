@@ -13,15 +13,64 @@ public class Pupulation : MonoBehaviour
     
     public void ChangeStateHealthBars(ShowHealthBar showHealthBar)
     {
-        bool showAll = false;
-        if(showHealthBar == ShowHealthBar.all)
+        List<Transform> persons = GetAllPersons();
+
+        switch (showHealthBar)
         {
-            showAll = true;
+            case ShowHealthBar.none:
+                foreach (Transform person in persons)
+                {
+                    person.gameObject.GetComponent<PersonAppearance>().SetBarActive(false);
+                    if (person.gameObject.GetComponent<PersonHealth>().VirusPresent)
+                    {
+                        Debug.Log("will deactivate");
+                        person.gameObject.GetComponentInChildren<VirusAppearance>().SetBarActive(false);
+                        //person.gameObject.GetComponent<VirusAppearance>().SetBarActive(false);
+                    }
+                }
+                break;
+
+            case ShowHealthBar.all:
+                foreach (Transform person in persons)
+                {
+                    person.gameObject.GetComponent<PersonAppearance>().SetBarActive(true);
+                    if (person.gameObject.GetComponent<PersonHealth>().VirusPresent)
+                    {
+                        person.gameObject.GetComponentInChildren<VirusAppearance>().SetBarActive(true);
+                    }
+                }
+                break;
+
+            case ShowHealthBar.infected:
+                foreach (Transform person in persons)
+                {
+                    if (person.gameObject.GetComponent<PersonHealth>().VirusPresent)
+                    {
+                        person.gameObject.GetComponent<PersonAppearance>().SetBarActive(true);
+                        person.gameObject.GetComponentInChildren<VirusAppearance>().SetBarActive(true);
+                    }
+                }
+                break;
         }
-        foreach (Transform t in transform)
+
+        //bool showAll = false;
+        //if(showHealthBar == ShowHealthBar.all)
+        //{
+        //    showAll = true;
+        //}
+        //foreach (Transform t in transform)
+        //{
+        //    Transform healthBarTransform = t.Find("HealthBar");
+        //    healthBarTransform.gameObject.SetActive(showAll);
+        //}
+    }
+
+    public void ChangePersonSize()
+    {
+        List<Transform> persons = GetAllPersons();
+        foreach (Transform t in persons)
         {
-            Transform healthBarTransform = t.Find("HealthBar");
-            healthBarTransform.gameObject.SetActive(showAll);
+            transform.localScale = Constants.PersonSize;
         }
     }
 
@@ -70,25 +119,33 @@ public class Pupulation : MonoBehaviour
         InfectPopulation();
     }
 
-    private void InfectPopulation()
+    private List<Transform> GetAllPersons()
     {
         List<Transform> persons = new List<Transform>();
         foreach (Transform t in transform)
         {
-            if(t.tag == "person")
+            if (t.tag == "person")
             {
                 persons.Add(t);
             }
         }
+        return persons;
+    }
+
+    private void InfectPopulation()
+    {
+        List<Transform> persons = GetAllPersons();
+        
 
         int numberOfInitialInfected = (int)(persons.Count * Constants.InitialInfectionProportion);
         if (numberOfInitialInfected < 1) numberOfInitialInfected = 1;
+
         print($"There are {persons.Count} and {numberOfInitialInfected} should be infected");
         List<int> personsIdToBeInfected = new List<int>();
 
         while(personsIdToBeInfected.Count < numberOfInitialInfected)
         {
-            int personId = Random.Range(0, persons.Count);
+            int personId = Random.Range(1, persons.Count);
             if (!personsIdToBeInfected.Contains(personId)) personsIdToBeInfected.Add(personId);
         }
 

@@ -34,6 +34,7 @@ public class PersonAppearance : MonoBehaviour
     public void SetBarActive(bool active)
     {
         healthBar.SetActive(active);
+        
     }
 
     private void Awake()

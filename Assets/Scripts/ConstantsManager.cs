@@ -15,6 +15,10 @@ public class ConstantsManager : MonoBehaviour
     public Slider selfHealingSlider;
     public Slider virusAggressivenessSlider;
     public Slider personReactionToVirusSlider;
+    public Slider initialInfectionProportionSlider;
+    public Slider hospitalCapacity;
+    public Slider intensiveCareCapacity;
+    public Slider personSize;
 
     private bool ShowSliderValue = true;
     public void Start()
@@ -26,6 +30,8 @@ public class ConstantsManager : MonoBehaviour
         personReactionToVirusSlider.onValueChanged.AddListener(delegate { SetPersonReactionToVirus(); });
         virusAggressivenessSlider.onValueChanged.AddListener(delegate { SetVirusAttackPower(); });
         selfHealingSlider.onValueChanged.AddListener(delegate { SetSelfHealingPower(); });
+        initialInfectionProportionSlider.onValueChanged.AddListener(delegate { SetInitialInfectionProportion(); });
+        personSize.onValueChanged.AddListener(delegate { SetPersonSize(); });
         //virusMortality.onValueChanged.AddListener(delegate { SetVirusMortality(); });
 
         ChangeHealthBarDisplay();
@@ -36,6 +42,24 @@ public class ConstantsManager : MonoBehaviour
         SetSelfHealingPower();
         SetVirusAttackPower();
         SetPopulationSize();
+        SetInitialInfectionProportion();
+    }
+
+    private void SetPersonSize()
+    {
+        Text PersonSizeLabel = GameObject.Find("PersonSize").GetComponent<Text>();
+        float personSizeScale = personSize.value * Constants.PersonSizeMax;
+        Constants.PersonSize = new Vector3(personSizeScale, personSizeScale, personSizeScale) ;
+        GameObject.Find("Population").GetComponent<Pupulation>().ChangePersonSize();
+
+    }
+
+    private void SetInitialInfectionProportion()
+    {
+        Text InitialInfectionProportionLabel = GameObject.Find("InitialInfectionProportion").GetComponent<Text>();
+        Constants.InitialInfectionProportion = initialInfectionProportionSlider.value * Constants.InitialInfectionProportionMax;
+        InitialInfectionProportionLabel.text = $"% Initial Infection - {Constants.InitialInfectionProportion.ToString("F3")}";
+
     }
 
     private void SetSelfHealingPower()
@@ -107,6 +131,7 @@ public class ConstantsManager : MonoBehaviour
         float value = populationSize.value;
 
         int iPopulationSize = (int)(value * Constants.PopulationLimit);
+        if (iPopulationSize < 1) iPopulationSize = 1;
         Constants.InitialPopulation = iPopulationSize;
         populationSizeLabel.text = $"Population Size - {iPopulationSize}";
         //int populationSize = (int)populationSize.value;

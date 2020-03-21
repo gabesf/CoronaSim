@@ -39,7 +39,7 @@ public class PersonHealth : MonoBehaviour
     public int TimeSick { get; set; } = 0;
     public float Health { get; set; }
 
-    private bool virusPresent = false;
+    public bool VirusPresent { get; set; } = false;
     private VirusHealth virusHealth;
     private GameObject virus;
 
@@ -54,13 +54,13 @@ public class PersonHealth : MonoBehaviour
     {
         virus = Instantiate(virusPrefab);
         virus.name = "virus";
-        virusPresent = true;
+        VirusPresent = true;
         virusHealth = virus.GetComponent<VirusHealth>();
         virus.transform.parent = transform;
         virus.transform.localPosition = Vector3.zero;
         Condition = HealthStatus.Infected;
         personAppearance.UpdateMaterial();
-
+        print("Infecting!");
         if(Constants.HealthBarDisplay == ShowHealthBar.infected || Constants.HealthBarDisplay == ShowHealthBar.all)
         {
             //personAppearance.SetBarActive(true);    
@@ -71,7 +71,7 @@ public class PersonHealth : MonoBehaviour
     public void RemoveVirus()
     {
         Destroy(virus);
-        virusPresent = false;
+        VirusPresent = false;
         virusHealth = null;
         Condition = HealthStatus.Cured;
         gameObject.layer = 8;
@@ -147,7 +147,7 @@ public class PersonHealth : MonoBehaviour
     void Update()
     {
         SelfHeal();
-        if(virusPresent && Condition!=HealthStatus.Dead)
+        if(VirusPresent && Condition!=HealthStatus.Dead)
         {
             AttackVirus();
         }
