@@ -98,24 +98,6 @@ public class Pupulation : MonoBehaviour
             healthBar.name = "HealthBar";
             healthBar.transform.localPosition = new Vector3(0f, 2.1f, 0f);
             healthBar.SetActive(false);
-            
-            if(Constants.HealthBarDisplay == ShowHealthBar.all || Constants.HealthBarDisplay == ShowHealthBar.infected)
-            {
-                //healthBar.SetActive(true);
-            }
-
-
-            
-            //if (i == 0)
-            //{
-            //    person.GetComponent<PersonHealth>().ContractVirus();
-            //    //person.GetComponent<PersonHealth>().Condition = HealthStatus.Infected;
-            //
-            //    person.tag = "Patient0";
-            //    person.transform.position = new Vector3(300, -60, 0);
-            //
-            //    
-            //}
         }
         InfectPopulation();
         ChangeStateHealthBars(Constants.HealthBarDisplay);
@@ -153,12 +135,13 @@ public class Pupulation : MonoBehaviour
 
         //print($"There are {personsIdToBeInfected.Count} in personsToBeInfected");
 
+        bool firstInfected = true;
         foreach (int personId in personsIdToBeInfected)
         {
-            
+            persons[personId].transform.position = new Vector3(300, -60, 0);
             //print("Will infect " + personId);
             persons[personId].gameObject.GetComponent<PersonHealth>().ContractVirus();
-
+            firstInfected = false;
         }
 
 
