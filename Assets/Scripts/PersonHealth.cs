@@ -35,6 +35,8 @@ public class PersonHealth : MonoBehaviour
     private PersonBehaviour personBehaviour;
 
     public GameObject virusPrefab;
+    private GameObject graveYard;
+
     public bool Aware { get; set; } = true;
     public int TimeInfected { get; set; } = 0;
     public int TimeSick { get; set; } = 0;
@@ -54,6 +56,8 @@ public class PersonHealth : MonoBehaviour
     private void Start()
     {
         constantsManager = GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>();
+        graveYard = GameObject.Find("GraveYard");
+
     }
 
     public void ContractVirus()
@@ -137,6 +141,7 @@ public class PersonHealth : MonoBehaviour
         Constants.NumberOfInfected--;
         constantsManager.UpdateStats();
         personAppearance.UpdateMaterial();
+        graveYard.GetComponent<GraveyardManagement>().AskAdmission(gameObject);
     }
 
     private float CalculateHealMultiplier()
