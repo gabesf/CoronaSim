@@ -173,7 +173,7 @@ public class ConstantsManager : MonoBehaviour
 
     public void UpdateStats()
     {
-        population.text = Constants.InitialPopulation.ToString();
+        population.text = $"# Population: {Constants.InitialPopulation.ToString()}";
         numberOfInfected.text = $"# Infected: {Constants.NumberOfInfected.ToString()}";
         numberOfDead.text = $"# Dead: {Constants.NumberOfDead.ToString()}";
         numberOfCured.text = $"# Cured: {Constants.NumberOfCured.ToString()}"; 
