@@ -69,7 +69,7 @@ public class PersonBehaviour : MonoBehaviour
 
     private void GoToHospital()
     {
-        WalkTo(Constants.HospitalPosition);
+        WalkTo(Constants.HospitalPosition + new Vector3(Random.Range(-60, 60), Random.Range(-60,60), 0f));
     }
 
     
@@ -104,9 +104,8 @@ public class PersonBehaviour : MonoBehaviour
                     if(gameObject.layer !=9)
                     {
                         gameObject.layer = 12;
-
-                    }
-                    if (IsInsideHospital())
+                    }   
+                    if (HospitalAccess)
                     {
 
                         
@@ -114,9 +113,6 @@ public class PersonBehaviour : MonoBehaviour
                     else
                     {
                         GoToHospital();
-
-
-
                     }
                 } else
                 {

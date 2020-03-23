@@ -19,6 +19,8 @@ public static class Constants
     static public int NumberOfDead { get; set; } = 0;
     static public int NumberOfCured { get; set; } = 0;
     static public int NumberOfInfected { get; set; } = 0;
+    static public int hospitalizations { get; set; } = 0;
+
 
     static public ShowHealthBar HealthBarDisplay = ShowHealthBar.infected;
     static public int InitialPopulation { get; set; } = 50;
@@ -42,7 +44,7 @@ public static class Constants
 
     static public float WalkingSpeed { get; set; } = 30;
 
-    static public Vector3 HospitalPosition { get; set; } = new Vector3(-140, 82, 0);
+    static public Vector3 HospitalPosition { get; set; } = new Vector3(0, 0, 0);
 
     static public float InitialInfectionProportion = 0.01f;
     static public float InitialInfectionProportionMax { get; } = 0.25f;

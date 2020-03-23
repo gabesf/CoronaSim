@@ -13,7 +13,8 @@ public class CreateBoundaries : MonoBehaviour
     }
 
     private void CreateVerticalWalls()
-    {
+    { //671 11
+      //670 369
         GameObject wall = Instantiate(wallPrefab);
         wall.name = "RightWall";
         wall.transform.position = new Vector2(Constants.WorldSize.x, 0);

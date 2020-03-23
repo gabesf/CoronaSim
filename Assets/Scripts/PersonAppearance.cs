@@ -59,7 +59,6 @@ public class PersonAppearance : MonoBehaviour
 
             case HealthStatus.Infected:
                 renderer.material = infected;
-                renderer.material.color = Color.blue;
                 break;
 
             case HealthStatus.Sick:

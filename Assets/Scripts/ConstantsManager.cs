@@ -23,6 +23,7 @@ public class ConstantsManager : MonoBehaviour
     public Text numberOfDead;
     public Text numberOfCured;
     public Text numberOfInfected;
+    public Text hospitalizations;
 
     private bool ShowSliderValue = true;
     public void Start()
@@ -176,6 +177,7 @@ public class ConstantsManager : MonoBehaviour
         population.text = $"# Population: {Constants.InitialPopulation.ToString()}";
         numberOfInfected.text = $"# Infected: {Constants.NumberOfInfected.ToString()}";
         numberOfDead.text = $"# Dead: {Constants.NumberOfDead.ToString()}";
-        numberOfCured.text = $"# Cured: {Constants.NumberOfCured.ToString()}"; 
+        numberOfCured.text = $"# Cured: {Constants.NumberOfCured.ToString()}";
+        hospitalizations.text = $"# Hospitalizations: {Constants.hospitalizations.ToString()} ({(Constants.hospitalizations / Constants.InitialPopulation) *100f}%)";
     }
 }

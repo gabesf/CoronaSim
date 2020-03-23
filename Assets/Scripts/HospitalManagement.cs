@@ -10,6 +10,7 @@ public class HospitalManagement : MonoBehaviour
     public GameObject HealthBarPrefab;
     private HealthBar healthBarScript;
     public GameObject HospitalDisplayPrefab;
+    public GameObject hospitalBedPrefab;
 
     private Text hospitalLabel;
 
@@ -21,7 +22,7 @@ public class HospitalManagement : MonoBehaviour
         
         transform.position = Constants.HospitalPosition;
         healthBar.transform.parent = transform;
-        healthBar.transform.localPosition = Vector3.zero;
+        healthBar.transform.localPosition = new Vector3(0,-60,0);
         healthBar.transform.localScale = new Vector3(1.5f, 2.0f, 1.0f);
         healthBar.AddComponent<BoxCollider2D>();
         healthBarScript = healthBar.GetComponent<HealthBar>();
@@ -35,7 +36,26 @@ public class HospitalManagement : MonoBehaviour
     private void Start()
     {
         UpdateHospitalLabel();
+        ArrangeHospitalBeds();
         
+    }
+
+    private void ArrangeHospitalBeds()
+    {
+        float maxRadius = 80;
+        int bedsPerRound = 20;
+        float angleIncrement = 2 * Mathf.PI / bedsPerRound;
+        float angle = 0;
+        for (int i = 0; i < Capacity; i++)
+        {
+            GameObject hospitalbed = Instantiate(hospitalBedPrefab);
+            hospitalbed.transform.parent = transform;
+            
+
+            hospitalbed.transform.localPosition = new Vector3(maxRadius*Mathf.Sin(angle), maxRadius*Mathf.Cos(angle), 0);
+            angle += angleIncrement;
+
+        }
     }
 
     public void AskAdmission(GameObject person)
@@ -43,6 +63,7 @@ public class HospitalManagement : MonoBehaviour
         if(Occupation < Capacity)
         {
             Occupation++;
+            Constants.hospitalizations++;
             person.layer = 9;
             person.GetComponent<PersonBehaviour>().HospitalAccess = true;
             float OccupancyRatio = (float)Occupation / (float)Capacity;
