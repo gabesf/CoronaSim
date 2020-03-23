@@ -12,6 +12,8 @@ public class PersonBehaviour : MonoBehaviour
 {
     private PersonHealth personHealth;
     private PersonAppearance personAppearance;
+    private GameObject hospital;
+
     //create a health quantity (relatively random) that is depleted by the virus
     //if the quantity is bellow some arbitrary level (go to hospital, go to intensive care) the person needs 
     //to go to the specified area or it's health depletes faster. If it goes to zero, the person goes to the morge.
@@ -23,22 +25,27 @@ public class PersonBehaviour : MonoBehaviour
 
     
     public bool ShouldGoToHospital { get; set; } = false;
-
+    public HospitalBed Bed { get; set; }
     public bool HospitalAccess { get; set; } = false;
 
-    
+    public bool UnderTreatment = false;
     private Rigidbody2D rb;
 
     
 
     
 
-    
+    public void ExitHospital()
+    {
+        hospital.GetComponent<HospitalManagement>().RegisterExit(gameObject);
+        
+    }
 
     private void Start()
     {
         GenerateRandomAwareness();
         Walk();
+        hospital = GameObject.Find("HospitalSquare");
     }
 
     private void GenerateRandomAwareness()
@@ -72,12 +79,13 @@ public class PersonBehaviour : MonoBehaviour
         WalkTo(Constants.HospitalPosition + new Vector3(Random.Range(-60, 60), Random.Range(-60,60), 0f));
     }
 
-    
+
     void Update()
     {
-        switch(personHealth.Condition)
+        switch (personHealth.Condition)
         {
-            case HealthStatus.Healthy:
+            case HealthStatus.Healthy :
+            case HealthStatus.Cured:
                 rb.velocity = rb.velocity.normalized * Constants.WalkingSpeed;
                 break;
 
@@ -85,12 +93,14 @@ public class PersonBehaviour : MonoBehaviour
                 
 
                 personHealth.TimeInfected++;
-                if(personHealth.TimeInfected > Constants.InfectingWithoutSignsTime)
+                if(personHealth.Health < 0.25)
                 {
                     personHealth.Condition = HealthStatus.Sick;
-                    GenerateRandomNecessityToGoToHospital();
                     personAppearance.UpdateMaterial();
+                    GenerateRandomNecessityToGoToHospital();
+
                 }
+                
                 break;
 
             case HealthStatus.Sick:
@@ -98,22 +108,15 @@ public class PersonBehaviour : MonoBehaviour
 
                 personHealth.TimeSick++; 
 
-                if(ShouldGoToHospital)
+                if(ShouldGoToHospital && !UnderTreatment)
                 {
                     //if already going to hospital, don't change layer
                     if(gameObject.layer !=9)
                     {
                         gameObject.layer = 12;
-                    }   
-                    if (HospitalAccess)
-                    {
-
-                        
                     }
-                    else
-                    {
-                        GoToHospital();
-                    }
+                    GoToHospital();
+                    
                 } else
                 {
                     personHealth.Aware = true;
@@ -144,9 +147,8 @@ public class PersonBehaviour : MonoBehaviour
             HandlePersonsTouched(otherPersonCondition);
         }
 
-        if (collision.gameObject.name == "HospitalBody" && personHealth.Condition == HealthStatus.Sick && gameObject.layer == 12 )
+        if (collision.gameObject.name == "HospitalBody" && personHealth.Condition == HealthStatus.Sick && gameObject.layer == 12 && !UnderTreatment)
         {
-            //print("Asking Admission");
             collision.transform.root.gameObject.GetComponent<HospitalManagement>().AskAdmission(gameObject);            
         }
     }

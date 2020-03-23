@@ -22,6 +22,7 @@ public class ButtonsFunctionallity : MonoBehaviour
         GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>().UpdateStats();
 
         populationScript.RemoveAllPeople();
+        GameObject.Find("HospitalSquare").GetComponent<HospitalManagement>().Reset();
         populationScript.Populate();
 
             //print("will repopulate");

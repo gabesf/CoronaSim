@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31020265b2b24d4b80bb77a9fd39ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hospital: {fileID: 5127462326414526182, guid: 4d086408e6522424db47e81d92da915e,
+    type: 3}
+  UnderTreatment: 0
 --- !u!50 &-4147998050985946665
 Rigidbody2D:
   serializedVersion: 4

@@ -63,7 +63,7 @@ public class ConstantsManager : MonoBehaviour
     {
         Text InitialInfectionProportionLabel = GameObject.Find("InitialInfectionProportion").GetComponent<Text>();
         Constants.InitialInfectionProportion = initialInfectionProportionSlider.value * Constants.InitialInfectionProportionMax;
-        InitialInfectionProportionLabel.text = $"% Initial Infection - {initialInfectionProportionSlider.value}";
+        InitialInfectionProportionLabel.text = $"% Initial Infection - {initialInfectionProportionSlider.value.ToString("F2")} - ({(int)(Constants.InitialInfectionProportion * Constants.InitialPopulation) })";
         //InitialInfectionProportionLabel.text = $"% Initial Infection - {Constants.InitialInfectionProportion.ToString("F3")}";
 
     }
@@ -178,6 +178,7 @@ public class ConstantsManager : MonoBehaviour
         numberOfInfected.text = $"# Infected: {Constants.NumberOfInfected.ToString()}";
         numberOfDead.text = $"# Dead: {Constants.NumberOfDead.ToString()}";
         numberOfCured.text = $"# Cured: {Constants.NumberOfCured.ToString()}";
-        hospitalizations.text = $"# Hospitalizations: {Constants.hospitalizations.ToString()} ({(Constants.hospitalizations / Constants.InitialPopulation) *100f}%)";
+        float hospitalizationProportion = ((float)Constants.hospitalizations / (float)Constants.InitialPopulation) * 100f;
+        hospitalizations.text = $"# Hospitalizations: {Constants.hospitalizations.ToString()}({hospitalizationProportion.ToString("F2")}%)";
     }
 }

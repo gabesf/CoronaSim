@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class HospitalManagement : MonoBehaviour
+public partial class HospitalManagement : MonoBehaviour
 {
     public int Capacity { get; set; } = 100;
     public int Occupation { get; set; } = 0;
@@ -11,9 +11,9 @@ public class HospitalManagement : MonoBehaviour
     private HealthBar healthBarScript;
     public GameObject HospitalDisplayPrefab;
     public GameObject hospitalBedPrefab;
-
+    public GameObject bedsStartingPos;
     private Text hospitalLabel;
-
+    private List<HospitalBed> beds;
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,6 +33,14 @@ public class HospitalManagement : MonoBehaviour
         hospitalLabel.transform.localPosition = healthBar.transform.position;
     }
 
+    public void Reset()
+    {
+        Occupation = 0;
+        ArrangeHospitalBeds();
+        UpdateHospitalLabel();
+
+    }
+
     private void Start()
     {
         UpdateHospitalLabel();
@@ -40,22 +48,47 @@ public class HospitalManagement : MonoBehaviour
         
     }
 
+    
+
     private void ArrangeHospitalBeds()
     {
-        float maxRadius = 80;
-        int bedsPerRound = 20;
-        float angleIncrement = 2 * Mathf.PI / bedsPerRound;
-        float angle = 0;
+        beds = new List<HospitalBed>();
+
+        int rows = 10;
+        int columns = 10;
+
+        float distance = 19f;
         for (int i = 0; i < Capacity; i++)
         {
-            GameObject hospitalbed = Instantiate(hospitalBedPrefab);
-            hospitalbed.transform.parent = transform;
+            HospitalBed bed = new HospitalBed();
             
+            float xpos = i % rows;
+            float ypos = i / columns;
 
-            hospitalbed.transform.localPosition = new Vector3(maxRadius*Mathf.Sin(angle), maxRadius*Mathf.Cos(angle), 0);
-            angle += angleIncrement;
-
+            Vector3 bedPosition  = new Vector3(xpos * distance - 85f, -ypos * distance + 85f, -1);
+            bed.position = bedPosition;
+            bed.Number = i;
+            beds.Add(bed);
         }
+    }
+
+    private HospitalBed GetFreeBed()
+    {
+
+        int startingPos = Random.Range(0, Capacity);
+        int counter = 0;
+        foreach (HospitalBed bed in beds)
+        {
+            //print(beds.Count);
+            if (bed.free)
+            {
+                bed.free = false;
+                return bed;
+            }
+            counter++;
+        }
+        print("error");
+        return beds[0];
     }
 
     public void AskAdmission(GameObject person)
@@ -65,11 +98,25 @@ public class HospitalManagement : MonoBehaviour
             Occupation++;
             Constants.hospitalizations++;
             person.layer = 9;
-            person.GetComponent<PersonBehaviour>().HospitalAccess = true;
+            HospitalBed hospitalBed = GetFreeBed();
+            person.transform.localPosition = hospitalBed.position;
+            person.GetComponent<PersonBehaviour>().UnderTreatment = true;
+            person.GetComponent<PersonBehaviour>().Bed = hospitalBed;
+
+            //person.GetComponent<PersonBehaviour>().HospitalAccess = true;
             float OccupancyRatio = (float)Occupation / (float)Capacity;
             healthBarScript.UpdateBar(OccupancyRatio);
             UpdateHospitalLabel();
         }
+    }
+
+    public void RegisterExit(GameObject person)
+    {
+        //person.GetComponent<PersonBehaviour>().Bed.free = true;
+        print("Will make empty the bed #" + person.GetComponent<PersonBehaviour>().Bed.Number);
+        beds[person.GetComponent<PersonBehaviour>().Bed.Number].free = true;
+        Occupation--;
+        //print("will register exit of patient");
     }
 
     private void UpdateHospitalLabel()

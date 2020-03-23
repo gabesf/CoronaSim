@@ -46,6 +46,8 @@ public class PersonHealth : MonoBehaviour
     private VirusHealth virusHealth;
     private GameObject virus;
 
+  
+
     private void Awake()
     {
         personAppearance = gameObject.GetComponent<PersonAppearance>();
@@ -93,10 +95,14 @@ public class PersonHealth : MonoBehaviour
         personBehaviour.Walk();
         Constants.NumberOfCured++;
         Constants.NumberOfInfected--;
-
         constantsManager.UpdateStats();
-
-        personAppearance.UpdateMaterial(); 
+        personAppearance.UpdateMaterial();
+        
+        if(personBehaviour.UnderTreatment)
+        {
+            personBehaviour.ExitHospital();
+        }
+        
     }
 
     private void AttackVirus()

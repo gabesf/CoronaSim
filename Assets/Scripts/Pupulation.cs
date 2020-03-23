@@ -138,7 +138,10 @@ public class Pupulation : MonoBehaviour
         bool firstInfected = true;
         foreach (int personId in personsIdToBeInfected)
         {
-            persons[personId].transform.position = new Vector3(300, -60, 0);
+            if(firstInfected)
+            {
+                persons[personId].transform.position = new Vector3(300, -60, 0);
+            }
             //print("Will infect " + personId);
             persons[personId].gameObject.GetComponent<PersonHealth>().ContractVirus();
             firstInfected = false;
