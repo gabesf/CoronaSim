@@ -19,6 +19,7 @@ public class ButtonsFunctionallity : MonoBehaviour
         Constants.NumberOfInfected = 0;
         Constants.NumberOfDead = 0;
         Constants.NumberOfCured = 0;
+        Constants.hospitalizations = 0;
         GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>().UpdateStats();
 
         populationScript.RemoveAllPeople();

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public partial class HospitalManagement : MonoBehaviour
 {
-    public int Capacity { get; set; } = 100;
+    public int Capacity { get; set; } = 20;
     public int Occupation { get; set; } = 0;
 
     public GameObject HealthBarPrefab;
@@ -55,7 +55,7 @@ public partial class HospitalManagement : MonoBehaviour
         beds = new List<HospitalBed>();
 
         int rows = 10;
-        int columns = 10;
+        int columns = 2;
 
         float distance = 19f;
         for (int i = 0; i < Capacity; i++)

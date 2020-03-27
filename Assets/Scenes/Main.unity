@@ -127,7 +127,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 8462312516480703077}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
@@ -831,6 +831,11 @@ PrefabInstance:
       propertyPath: hospitalizations
       value: 
       objectReference: {fileID: 530821297}
+    - target: {fileID: 1662766535980214647, guid: 6ddfe6e48aef714439d316ffc5e5efcb,
+        type: 3}
+      propertyPath: levelToRequireHospitalSlider
+      value: 
+      objectReference: {fileID: 190452614}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ddfe6e48aef714439d316ffc5e5efcb, type: 3}
 --- !u!1001 &5325163974688836431
@@ -1133,7 +1138,67 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8462312517483753482, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8462312516571461048, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516571461048, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516571461048, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312517964267075, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_Name
+      value: LevelToRequireHospital
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312517964267085, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_Text
+      value: Level to require hospital
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516569434593, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_Name
+      value: LevelToRequireHospitalSlider
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516569434595, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312517956077266, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312517956077266, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516935960916, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516935960916, guid: 04db2e553c3f39444a42ab5217cbb742,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462312516935960916, guid: 04db2e553c3f39444a42ab5217cbb742,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

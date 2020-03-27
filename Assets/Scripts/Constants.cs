@@ -61,6 +61,7 @@ public static class Constants
     //static public float infectionTimeLimit = 50;
 
     static public float goToHospitalWhenSickChance = 1f;
+    static public float LevelToRequireHospital = 1f;
 
     public static float BeAwareChance = 0.0f;
     }

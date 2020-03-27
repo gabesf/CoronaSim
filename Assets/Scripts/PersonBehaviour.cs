@@ -93,7 +93,7 @@ public class PersonBehaviour : MonoBehaviour
                 
 
                 personHealth.TimeInfected++;
-                if(personHealth.Health < 0.25)
+                if(personHealth.Health < Constants.LevelToRequireHospital)
                 {
                     personHealth.Condition = HealthStatus.Sick;
                     personAppearance.UpdateMaterial();

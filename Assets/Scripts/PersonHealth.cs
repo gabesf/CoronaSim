@@ -53,6 +53,10 @@ public class PersonHealth : MonoBehaviour
         personAppearance = gameObject.GetComponent<PersonAppearance>();
         personBehaviour = gameObject.GetComponent<PersonBehaviour>();
         Health = Random.Range(0.8f, 1);
+        if(Random.Range(0, 1f) < 0.20f)
+        {
+            Health = 0.5f;
+        }
     }
 
     private void Start()
@@ -105,9 +109,15 @@ public class PersonHealth : MonoBehaviour
         
     }
 
-    private void AttackVirus()
+    private void AttackVirus(float value = 0.0f)
     {
-        virusHealth.ReceiveAttack(Constants.PersonAttackPower);
+        if(value == 0.0f)
+        {
+            virusHealth.ReceiveAttack(Constants.PersonAttackPower);
+        } else
+        {
+            virusHealth.ReceiveAttack(value);
+        }
     }
 
     private float CalculateAttackMultiplier()
@@ -115,7 +125,7 @@ public class PersonHealth : MonoBehaviour
         switch (Needs)
         {
             case MedicalNeeds.None: return 1f;
-            case MedicalNeeds.Hospital: return 3f;
+            case MedicalNeeds.Hospital: return 4f;
             case MedicalNeeds.Respirator: return 10f;
             default: return 1f;
         }
@@ -130,8 +140,8 @@ public class PersonHealth : MonoBehaviour
         //personAppearance.UpdateBar();
 
         if (Health > 0.8) Needs = MedicalNeeds.None;
-        if (Health < 0.5) Needs = MedicalNeeds.Hospital;
-        if (Health < 0.1) Needs = MedicalNeeds.Respirator;
+        if (Health < 0.6) Needs = MedicalNeeds.Hospital;
+        //if (Health < 0.1) Needs = MedicalNeeds.Respirator;
 
         if (Health <= 0)
         {
@@ -148,6 +158,10 @@ public class PersonHealth : MonoBehaviour
         constantsManager.UpdateStats();
         personAppearance.UpdateMaterial();
         graveYard.GetComponent<GraveyardManagement>().AskAdmission(gameObject);
+        if (personBehaviour.UnderTreatment)
+        {
+            personBehaviour.ExitHospital();
+        }
     }
 
     private float CalculateHealMultiplier()
@@ -178,7 +192,15 @@ public class PersonHealth : MonoBehaviour
         SelfHeal();
         if(VirusPresent && Condition!=HealthStatus.Dead)
         {
-            AttackVirus();
+            if(personBehaviour.UnderTreatment)
+            {
+                AttackVirus(1);
+            } else
+            {
+                AttackVirus();
+
+            }
+
         }
 
         personAppearance.UpdateBar();
