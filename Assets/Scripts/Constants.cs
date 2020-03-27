@@ -33,7 +33,7 @@ public static class Constants
     static public float PersonSelfHealMaxRate { get; } = 0.005f;
 
     static public float VirusAttackPower = 0.002f;
-    static public float VirusAttackPowerMax { get; } = 0.005f;
+    static public float VirusAttackPowerMax { get; } = 0.0025f;
 
 
     static public float MaxWalkingSpeed = 100;

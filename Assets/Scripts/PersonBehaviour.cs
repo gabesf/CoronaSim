@@ -2,43 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
-
-
-
 public class PersonBehaviour : MonoBehaviour
 {
     private PersonHealth personHealth;
     private PersonAppearance personAppearance;
     private GameObject hospital;
-
-    //create a health quantity (relatively random) that is depleted by the virus
-    //if the quantity is bellow some arbitrary level (go to hospital, go to intensive care) the person needs 
-    //to go to the specified area or it's health depletes faster. If it goes to zero, the person goes to the morge.
-
-   
-
-    //private GameObject healthBar;
-    
-
     
     public bool ShouldGoToHospital { get; set; } = false;
     public HospitalBed Bed { get; set; }
     public bool HospitalAccess { get; set; } = false;
-
     public bool UnderTreatment = false;
     private Rigidbody2D rb;
-
     
-
-    
-
     public void ExitHospital()
     {
         hospital.GetComponent<HospitalManagement>().RegisterExit(gameObject);
-        
     }
 
     private void Start()
@@ -60,7 +38,6 @@ public class PersonBehaviour : MonoBehaviour
         ShouldGoToHospital = chance < Constants.goToHospitalWhenSickChance ? true : false;
     }
 
-    // Start is called before the first frame update
     void Awake()
     {
         personHealth = gameObject.GetComponent<PersonHealth>();

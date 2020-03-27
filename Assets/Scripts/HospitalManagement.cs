@@ -116,6 +116,7 @@ public partial class HospitalManagement : MonoBehaviour
         print("Will make empty the bed #" + person.GetComponent<PersonBehaviour>().Bed.Number);
         beds[person.GetComponent<PersonBehaviour>().Bed.Number].free = true;
         Occupation--;
+        UpdateHospitalLabel();
         //print("will register exit of patient");
     }
 

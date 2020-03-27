@@ -16,7 +16,6 @@ public class GraveyardManagement : MonoBehaviour
     void Start()
     {
         Capacity = CalculateCapacity();
-        print($"Capacity = {Capacity}");
     }
 
     private int CalculateCapacity()
@@ -34,7 +33,7 @@ public class GraveyardManagement : MonoBehaviour
 
             Vector3 gravePosition = GetGravePosition();
             Occupation++;
-            person.transform.parent = transform;
+            //person.transform.parent = transform;
             person.transform.position = transform.position + gravePosition;
         }
         else
