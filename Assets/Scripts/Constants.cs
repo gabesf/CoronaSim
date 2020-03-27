@@ -21,7 +21,7 @@ public static class Constants
     static public int NumberOfInfected { get; set; } = 0;
     static public int hospitalizations { get; set; } = 0;
 
-
+    static public int DropDownCurrentSelection { get; set; }
     static public ShowHealthBar HealthBarDisplay = ShowHealthBar.infected;
     static public int InitialPopulation { get; set; } = 50;
     static public Vector2 WorldSize { get; set; } = new Vector2(355, 200);

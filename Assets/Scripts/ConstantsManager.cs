@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ConstantsManager : MonoBehaviour
 {
@@ -19,11 +20,20 @@ public class ConstantsManager : MonoBehaviour
     public Slider hospitalCapacity;
     public Slider intensiveCareCapacity;
     public Slider levelToRequireHospitalSlider;
+    public Dropdown presetDropdown;
+
     public Text population;
     public Text numberOfDead;
     public Text numberOfCured;
     public Text numberOfInfected;
     public Text hospitalizations;
+
+    public Button loadButton;
+    public Button saveButton;
+    public Button repopulateButton;
+    public Button resetButton;
+
+    private Pupulation populationScript;
 
     private bool ShowSliderValue = true;
     public void Start()
@@ -37,7 +47,12 @@ public class ConstantsManager : MonoBehaviour
         selfHealingSlider.onValueChanged.AddListener(delegate { SetSelfHealingPower(); });
         initialInfectionProportionSlider.onValueChanged.AddListener(delegate { SetInitialInfectionProportion(); });
         levelToRequireHospitalSlider.onValueChanged.AddListener(delegate { SetLevelToRequireHospital(); });
+        presetDropdown.onValueChanged.AddListener(delegate { SetPresetDropdownSelection(); });
+        repopulateButton.onClick.AddListener(delegate { HandleRepopulateButtonClick(); });
+        resetButton.onClick.AddListener(delegate { HandleResetButtonClick(); });
         //virusMortality.onValueChanged.AddListener(delegate { SetVirusMortality(); });
+        loadButton.onClick.AddListener(delegate { HandleLoadButtonClick(); });
+        saveButton.onClick.AddListener(delegate { HandleSaveButtonClick(); });
 
         initialInfectionProportionSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("initialInfectionProportionSlider.value"));
         selfHealingSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("selfHealingSlider.value"));
@@ -48,6 +63,32 @@ public class ConstantsManager : MonoBehaviour
         populationSize.SetValueWithoutNotify(PlayerPrefs.GetFloat("populationSize.value"));
         levelToRequireHospitalSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("levelToRequireHospitalSlider.value"));
 
+        SetSlidersValuesToConstants();
+    }
+
+    private void HandleRepopulateButtonClick()
+    {
+        GameObject population = GameObject.Find("Population");
+        populationScript = population.GetComponent<Pupulation>();
+        Constants.NumberOfInfected = 0;
+        Constants.NumberOfDead = 0;
+        Constants.NumberOfCured = 0;
+        Constants.hospitalizations = 0;
+        GameObject.Find("ConstantManager").GetComponentInChildren<ConstantsManager>().UpdateStats();
+
+        populationScript.RemoveAllPeople();
+        GameObject.Find("HospitalSquare").GetComponent<HospitalManagement>().Reset();
+        populationScript.Populate();
+    }
+
+    private void HandleResetButtonClick()
+    {
+        print("Button pressed");
+        SceneManager.LoadScene(0);
+    }
+
+    private void SetSlidersValuesToConstants()
+    {
         ChangeHealthBarDisplay();
         SetWalkingSpeed();
         SetInfectingWithoutSignsTime();
@@ -60,10 +101,61 @@ public class ConstantsManager : MonoBehaviour
         SetLevelToRequireHospital();
     }
 
+    private void HandleLoadButtonClick()
+    {
+        LoadPresetValues(Constants.DropDownCurrentSelection);
+        SetSlidersValuesToConstants();
+        HandleRepopulateButtonClick();
+    }
+
+    private void HandleSaveButtonClick()
+    {
+        SavePresetValues(Constants.DropDownCurrentSelection);
+    }
+
+    public void LoadPresetValues(int presetValue)
+    {
+        Debug.Log("Loading presets");
+        string presetSelector = presetValue == 0 ? "" : presetValue.ToString();
+
+        initialInfectionProportionSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("initialInfectionProportionSlider.value" + presetSelector));
+        selfHealingSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("selfHealingSlider.value" + presetSelector));
+        virusAggressivenessSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("virusAggressivenessSlider.value" + presetSelector));
+        personReactionToVirusSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("personReactionToVirusSlider.value" + presetSelector));
+        walkingSpeed.SetValueWithoutNotify(PlayerPrefs.GetFloat("walkingSpeed.value" + presetSelector));
+        showHealthBar.SetValueWithoutNotify(PlayerPrefs.GetFloat("showHealthBar.value" + presetSelector));
+        populationSize.SetValueWithoutNotify(PlayerPrefs.GetFloat("populationSize.value" + presetSelector));
+        levelToRequireHospitalSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("levelToRequireHospitalSlider.value" + presetSelector));
+
+    }
+
+    public void SavePresetValues(int presetValue)
+    {
+        Debug.Log("Saving presets " + presetValue);
+        if(presetValue!=0)
+        {
+            PlayerPrefs.SetFloat("levelToRequireHospitalSlider.value" + presetValue, levelToRequireHospitalSlider.value);
+            PlayerPrefs.SetFloat("walkingSpeed.value" + presetValue, walkingSpeed.value);
+            PlayerPrefs.SetFloat("populationSize.value" + presetValue, populationSize.value);
+            PlayerPrefs.SetFloat("showHealthBar.value" + presetValue, showHealthBar.value);
+            PlayerPrefs.SetFloat("initialInfectionProportionSlider.value" + presetValue, initialInfectionProportionSlider.value);
+            PlayerPrefs.SetFloat("selfHealingSlider.value" + presetValue, selfHealingSlider.value);
+            PlayerPrefs.SetFloat("personReactionToVirusSlider.value" + presetValue, personReactionToVirusSlider.value);
+            PlayerPrefs.SetFloat("virusAggressivenessSlider.value" + presetValue, virusAggressivenessSlider.value);
+        }
+        
+
+    }
+    private void SetPresetDropdownSelection()
+    {
+        Debug.Log($"Dropdownselected =  {presetDropdown.value.ToString() }");
+        Constants.DropDownCurrentSelection = presetDropdown.value;
+        //LoadPresetValues(Constants.DropDownCurrentSelection);
+    }
+
     private void SetLevelToRequireHospital()
     {
         Constants.LevelToRequireHospital = levelToRequireHospitalSlider.value;
-        PlayerPrefs.SetFloat("levelToRequireHospitalSlider.value", levelToRequireHospitalSlider.value);
         Text levelToRequireHospitalLabel = GameObject.Find("LevelToRequireHospital").GetComponent<Text>();
         levelToRequireHospitalLabel.text = $"Level to require hospital: {Constants.LevelToRequireHospital.ToString("F3")}";
     }
@@ -75,7 +167,6 @@ public class ConstantsManager : MonoBehaviour
         Constants.WalkingSpeed = walkingSpeedCalculated;
         Text walkingSpeedLabel = GameObject.Find("WalkingSpeed").GetComponent<Text>();
         walkingSpeedLabel.text = $"Walking Speed - {walkingSpeed.value}";
-        PlayerPrefs.SetFloat("walkingSpeed.value", walkingSpeed.value);
     }
 
     private void SetPersonReactionToVirus()
@@ -84,7 +175,6 @@ public class ConstantsManager : MonoBehaviour
 
         Constants.PersonAttackPower = personReactionToVirusSlider.value * Constants.PersonAttackPowerMax;
         PersonReactionToVirusLabel.text = $"Reaction to Virus - {personReactionToVirusSlider.value}";
-        PlayerPrefs.SetFloat("personReactionToVirusSlider.value", personReactionToVirusSlider.value);
     }
 
     private void SetVirusAttackPower()
@@ -93,7 +183,7 @@ public class ConstantsManager : MonoBehaviour
         Text virusAggressivenessLabel = GameObject.Find("VirusAggressiveness").GetComponent<Text>();
         //virusAggressivenessLabel.text = $"Virus Aggressiviness - {Constants.VirusAttackPower.ToString("F3")}";
         virusAggressivenessLabel.text = $"Virus Aggressiviness - {virusAggressivenessSlider.value.ToString("F3")}";
-        PlayerPrefs.SetFloat("virusAggressivenessSlider.value", virusAggressivenessSlider.value);
+        
     }
 
     private void SetSelfHealingPower()
@@ -102,7 +192,7 @@ public class ConstantsManager : MonoBehaviour
         Text PersonSelfHealRateLabel = GameObject.Find("PersonSelfHealing").GetComponent<Text>();
         Constants.PersonSelfHealRate = selfHealingSlider.value * Constants.PersonSelfHealMaxRate;
         PersonSelfHealRateLabel.text = $"Self Healing {selfHealingSlider.value} ";
-        PlayerPrefs.SetFloat("selfHealingSlider.value", selfHealingSlider.value);
+        
     }
 
     private void SetInitialInfectionProportion()
@@ -111,8 +201,7 @@ public class ConstantsManager : MonoBehaviour
         Constants.InitialInfectionProportion = initialInfectionProportionSlider.value * Constants.InitialInfectionProportionMax;
         InitialInfectionProportionLabel.text = $"% Initial Infection - {initialInfectionProportionSlider.value.ToString("F2")} - ({(int)(Constants.InitialInfectionProportion * Constants.InitialPopulation) })";
         //InitialInfectionProportionLabel.text = $"% Initial Infection - {Constants.InitialInfectionProportion.ToString("F3")}";
-        PlayerPrefs.SetFloat("initialInfectionProportionSlider.value", initialInfectionProportionSlider.value);
-
+        
     }
 
     
@@ -149,7 +238,6 @@ public class ConstantsManager : MonoBehaviour
 
         //print("Will call");
         GameObject.Find("Population").GetComponent<Pupulation>().ChangeStateHealthBars(Constants.HealthBarDisplay);
-        PlayerPrefs.SetFloat("showHealthBar.value", showHealthBar.value);
         
         //print("Called");
 
@@ -166,7 +254,7 @@ public class ConstantsManager : MonoBehaviour
         Constants.InitialPopulation = iPopulationSize;
         populationSizeLabel.text = $"Population Size - {iPopulationSize}";
 
-        PlayerPrefs.SetFloat("populationSize.value", populationSize.value);
+       
         //int populationSize = (int)populationSize.value;
     }
 

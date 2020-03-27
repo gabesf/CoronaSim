@@ -12,6 +12,11 @@ public class ButtonsFunctionallity : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void LoadPreset()
+    {
+        //ConstantsManager.
+    }
+
     public void Repopulate()
     {
         GameObject population = GameObject.Find("Population");
